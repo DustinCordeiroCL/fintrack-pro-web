@@ -22,6 +22,7 @@
     "strictTemplates": true
   },
   "files": [],
+  "exclude": ["src/**/*.spec.ts", "setup-jest.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"
