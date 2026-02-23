@@ -1,0 +1,67 @@
+<div class="card-container p-4">
+
+  <p-toast />
+
+  <div class="table-header">
+    <h2 class="text-900 font-bold m-0">Category Management</h2>
+    <p-button label="New Category" icon="pi pi-plus" (onClick)="showDialog()">
+    </p-button>
+  </div>
+
+  <p-table [value]="categories()" styleClass="p-datatable-striped">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-category>
+      <tr>
+        <td>{{ category.name }}</td>
+        <td>
+          <div class="flex align-items-center gap-2">
+            <span [style.backgroundColor]="category.color" class="color-indicator">
+            </span>
+            {{ category.color }}
+          </div>
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <p-button icon="pi pi-pencil" [text]="true" severity="secondary"></p-button>
+            <p-button icon="pi pi-trash" [text]="true" severity="danger"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3" class="text-center p-4 text-500">
+          No categories found. Click "New Category" to start.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-dialog header="Create Category" [(visible)]="displayDialog" [modal]="true">
+
+    <form [formGroup]="categoryForm" class="flex flex-column gap-3 mt-3">
+      <div class="flex flex-column gap-2">
+        <label for="name" class="font-bold">Name</label>
+        <input pInputText id="name" formControlName="name" autocomplete="off" />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="color" class="font-bold">Theme Color</label>
+        <p-colorPicker formControlName="color" appendTo="body" format="hex"></p-colorPicker>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)"></p-button>
+      <p-button label="Save Category" icon="pi pi-check" (onClick)="saveCategory()"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
