@@ -16,7 +16,7 @@ export class CategoryService {
     public listAll(): Observable<Category[]> {
         return this.#http.get<Category[]>(this.#API_URL).pipe(
             catchError((error) => {
-                return throwError(() => new Error('Something wen wrong: please try again later'));
+                return throwError(() => new Error('Failed to retrieve categories. Please try again later.'));
             })
         )
     }
@@ -24,7 +24,7 @@ export class CategoryService {
     public create(category: Partial<Category>): Observable<Category> {
         return this.#http.post<Category>(this.#API_URL, category).pipe(
             catchError((error) => {
-                return throwError(() => new Error('Failed to create category: please try again later'));
+                return throwError(() => new Error('Failed to create the category. Ensure the data is valid.'));
             })
         );
     }
