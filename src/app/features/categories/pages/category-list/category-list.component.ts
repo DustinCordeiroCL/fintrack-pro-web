@@ -65,7 +65,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public saveCategory(): void {
-    if (this.categoryForm.valid) {
+    if(this.categoryForm.valid) {
       this.#categoryService.create(this.categoryForm.value).subscribe({
         next: () => {
           this.displayDialog.set(false);

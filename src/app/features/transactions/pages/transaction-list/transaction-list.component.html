@@ -1,0 +1,69 @@
+<div class="card-container p-4">
+  <p-toast />
+
+  <div class="table-header flex justify-content-between align-items-center mb-4">
+    <h2 class="text-900 font-bold m-0">Transaction Management</h2>
+    <p-button label="New Transaction" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
+  </div>
+
+  <p-table [value]="transactions()" styleClass="p-datatable-striped" [responsiveLayout]="'scroll'">
+    <ng-template pTemplate="body" let-transaction>
+      <tr>
+        <td>{{ transaction.date | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ transaction.description }}</td>
+        <td>
+          <span [style.color]="transaction.category.color" class="font-bold">
+            ● {{ transaction.category.name }}
+          </span>
+        </td>
+        <td>
+          <span [class]="'type-badge ' + transaction.type.toLowerCase()">
+            {{ transaction.type }}
+          </span>
+        </td>
+        <td class="font-bold">
+          {{ transaction.amount | currency: 'USD' : 'symbol' : '1.2-2' }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-dialog header="New Transaction" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '450px' }">
+    <form [formGroup]="transactionForm" class="flex flex-column gap-3 mt-3">
+
+      <div class="flex flex-column gap-2">
+        <label for="description" class="font-bold">Description</label>
+        <input pInputText id="description" formControlName="description" class="w-full" />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="amount" class="font-bold">Amount</label>
+        <p-inputNumber id="amount" formControlName="amount" mode="currency" currency="USD" locale="en-US"
+          styleClass="w-full" inputStyleClass="w-full" placeholder="$ 0.00" />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="date" class="font-bold">Date</label>
+        <p-datepicker id="date" formControlName="date" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"
+          styleClass="w-full" />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="category" class="font-bold">Category</label>
+        <p-select [options]="categories()" formControlName="category" optionLabel="name" placeholder="Select a Category"
+          appendTo="body" styleClass="w-full" />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="type" class="font-bold">Type</label>
+        <p-select [options]="['INCOME', 'EXPENSE']" formControlName="type" placeholder="Select Type" appendTo="body"
+          styleClass="w-full" />
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
+      <p-button label="Save" icon="pi pi-check" (onClick)="saveTransaction()" />
+    </ng-template>
+  </p-dialog>
+</div>
