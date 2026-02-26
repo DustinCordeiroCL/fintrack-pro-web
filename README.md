@@ -50,12 +50,11 @@ The application will be accessible at `http://localhost:4200`.
 
 ## 🚧 Roadmap & Issues
 
-- [x] **Issue #1:** Project Bootstrap & Standalone Architecture Setup.
-- [x] **Issue #2:** PrimeNG Integration & Theming Configuration.
-- [x] **Issue #3:** Category Management Implementation (UI & Services).
-- [x] **Issue #4:** Transaction Management, Enum Mapping & Service Layer.
-- [x] **Issue #5:** Unit Testing Setup with Jest & Component Mocks.
-- [ ] **Issue #6:** Dashboard & Financial Analytics Visualization.
+- [x] **Issue #1:** Frontend Bootstrap (fintrack-pro-web).
+- [x] **Issue #2:** API Integration Infrastructure.
+- [x] **Issue #3:** Category Management UI (PrimeNG Integration).
+- [x] **Issue #4:** Transaction UI and API Integration.
+- [ ] **Issue #5:** TBD (To Be Defined).
 
 ## 📄 License
 
