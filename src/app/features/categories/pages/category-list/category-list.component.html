@@ -1,11 +1,10 @@
-<div class="card-container p-4">
+<div class="card-container">
 
   <p-toast />
 
   <div class="table-header">
-    <h2 class="text-900 font-bold m-0">Category Management</h2>
-    <p-button label="New Category" icon="pi pi-plus" (onClick)="showDialog()">
-    </p-button>
+    <h2 class="page-title">Category Management</h2>
+    <p-button label="New Category" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
   </div>
 
   <p-table [value]="categories()" styleClass="p-datatable-striped">
@@ -21,14 +20,13 @@
       <tr>
         <td>{{ category.name }}</td>
         <td>
-          <div class="flex align-items-center gap-2">
-            <span [style.backgroundColor]="category.color" class="color-indicator">
-            </span>
+          <div class="color-cell-content">
+            <span [style.backgroundColor]="category.color" class="color-indicator"></span>
             {{ category.color }}
           </div>
         </td>
         <td>
-          <div class="flex gap-2">
+          <div class="action-buttons">
             <p-button icon="pi pi-pencil" [text]="true" severity="secondary"></p-button>
             <p-button icon="pi pi-trash" [text]="true" severity="danger"></p-button>
           </div>
@@ -38,7 +36,7 @@
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="3" class="text-center p-4 text-500">
+        <td colspan="3" class="empty-message">
           No categories found. Click "New Category" to start.
         </td>
       </tr>
@@ -47,14 +45,14 @@
 
   <p-dialog header="Create Category" [(visible)]="displayDialog" [modal]="true">
 
-    <form [formGroup]="categoryForm" class="flex flex-column gap-3 mt-3">
-      <div class="flex flex-column gap-2">
-        <label for="name" class="font-bold">Name</label>
+    <form [formGroup]="categoryForm" class="category-form">
+      <div class="form-field">
+        <label for="name">Name</label>
         <input pInputText id="name" formControlName="name" autocomplete="off" />
       </div>
 
-      <div class="flex flex-column gap-2">
-        <label for="color" class="font-bold">Theme Color</label>
+      <div class="form-field">
+        <label for="color">Theme Color</label>
         <p-colorPicker formControlName="color" appendTo="body" format="hex"></p-colorPicker>
       </div>
     </form>
