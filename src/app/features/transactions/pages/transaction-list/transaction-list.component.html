@@ -39,36 +39,29 @@
   </p-table>
 
   <p-dialog header="New Transaction" [(visible)]="displayDialog" [modal]="true" styleClass="transaction-dialog">
-
     <form [formGroup]="transactionForm" class="transaction-form">
-
       <div class="form-field">
         <label for="description">Description</label>
         <input pInputText id="description" formControlName="description" />
       </div>
-
       <div class="form-field">
         <label for="amount">Amount</label>
         <p-inputNumber id="amount" formControlName="amount" mode="currency" currency="USD" locale="en-US"
           placeholder="$ 0.00" />
       </div>
-
       <div class="form-field">
         <label for="date">Date</label>
         <p-datepicker id="date" formControlName="date" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body" />
       </div>
-
       <div class="form-field">
         <label for="category">Category</label>
         <p-select [options]="categories()" formControlName="category" optionLabel="name" placeholder="Select a Category"
           appendTo="body" />
       </div>
-
       <div class="form-field">
         <label for="type">Type</label>
         <p-select [options]="['INCOME', 'EXPENSE']" formControlName="type" placeholder="Select Type" appendTo="body" />
       </div>
-
     </form>
 
     <ng-template pTemplate="footer">

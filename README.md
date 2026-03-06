@@ -9,13 +9,14 @@
 * **UI Library:** PrimeNG v18+
 * **Styling:** SCSS & PrimeFlex
 * **State Management:** Angular Signals
-* **Testing:** Jest
+* **Testing:** Jest (Replacing Karma/Jasmine)
+* **HTTP Client:** Fetch-based HttpClient with provideHttpClient
 
 ## 🏗 Architecture
 
 The project follows a **Feature-Driven (Screaming) Architecture** to ensure separation of concerns and maintainability:
-* **Features (`src/app/features/`):** Domain-specific modules (e.g., `transactions`, `categories`) containing their respective pages, components, and logic.
-* **Services (`src/app/services/`):** Centralized HTTP communication logic interacting with the REST API.
+* **Features (`src/app/features/`):** Domain-specific modules (`transactions`, `categories`) containing pages, components, and specific logic.
+* **Services (`src/app/services/`):** Centralized HTTP communication logic interacting with the REST API v1.
 * **Models (`src/app/models/`):** TypeScript Interfaces and Enums that strictly mirror the Java Spring Boot Backend DTOs to ensure Data Symmetry.
 * **Shared/Core (`src/app/shared/`):** Reusable UI components, interceptors, and application-wide utilities.
 
@@ -41,20 +42,20 @@ The application will be accessible at `http://localhost:4200`.
 ## 📌 Features & Views (Quick Reference)
 
 ### Categories Management
-* **List:** Responsive data table displaying all categories with dynamic color indicators.
-* **Create:** Modal interface with reactive forms for creating new financial categories.
+* **Interactive Table:** Responsive data table using p-table with dynamic indicators.
+* **Reactive Creation** Modal-based form (p-dialog) with real-time validation and feedback via p-toast.
 
 ### Transactions Management
-* **List:** Real-time data table of transactions with ISO-compliant date formatting and localized USD currency pipes.
-* **Create:** Dual-service orchestration loading categories dynamically. Uses advanced PrimeNG components (`p-datepicker`, `p-inputNumber`, `p-select`) for strict data normalization and Enum mapping (`INCOME` / `EXPENSE`).
+* **Orchestrated UI:** Complex data table featuring sorting, filtering, and localized currency/date pipes.
+* **Dynamic Forms:** Transaction creation with dynamic category loading via CategoryService and strict Enum mapping (INCOME/EXPENSE).
+* **Advanced Components:** Integration with p-datepicker, p-inputNumber, and p-select for data normalization.
 
 ## 🚧 Roadmap & Issues
 
-- [x] **Issue #1:** Frontend Bootstrap (fintrack-pro-web).
-- [x] **Issue #2:** API Integration Infrastructure.
-- [x] **Issue #3:** Category Management UI (PrimeNG Integration).
-- [x] **Issue #4:** Transaction UI and API Integration.
-- [ ] **Issue #5:** TBD (To Be Defined).
+- [x] **Issue #1:** Frontend Bootstrap (Angular setup, SCSS, PrimeNG & Jest integration).
+- [x] **Issue #2:** API Integration Infrastructure (Environments, HttpClient & CategoryService).
+- [x] **Issue #3:** Category Management UI (CRUD views, Reactive Forms & Toast feedback).
+- [x] **Issue #4:** Transaction UI and API Integration (Service mapping & Category orchestration).
 
 ## 📄 License
 
