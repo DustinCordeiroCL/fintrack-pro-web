@@ -6,7 +6,7 @@
     <p-button label="New Transaction" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
   </div>
 
-  <p-table [value]="transactions()" class="p-datatable-striped" [scrollable]="true">
+  <p-table [value]="transactions()" styleClass="p-datatable-striped" [scrollable]="true">
     <ng-template pTemplate="header">
       <tr>
         <th>Date</th>
@@ -32,7 +32,15 @@
           </span>
         </td>
         <td class="amount-cell">
-          {{ transaction.amount | currency: 'USD' : 'symbol' : '1.2-2' }}
+          {{ transaction.amount | currency: 'CLP' : 'symbol-narrow' : '1.0-0' }}
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="empty-message">
+          No transactions found. Click "New Transaction" to start.
         </td>
       </tr>
     </ng-template>
@@ -46,8 +54,8 @@
       </div>
       <div class="form-field">
         <label for="amount">Amount</label>
-        <p-inputNumber id="amount" formControlName="amount" mode="currency" currency="USD" locale="en-US"
-          placeholder="$ 0.00" />
+        <p-inputNumber id="amount" formControlName="amount" mode="currency" currency="CLP" locale="es-CL"
+          placeholder="$ 0" />
       </div>
       <div class="form-field">
         <label for="date">Date</label>
