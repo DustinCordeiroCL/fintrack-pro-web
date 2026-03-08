@@ -1,5 +1,5 @@
-import { TransactionType } from "../enums/transaction-type.enum";
-import { Category } from "./category.interface";
+import { TransactionType } from '../enums/transaction-type.enum';
+import { Category } from './category.interface';
 
 export interface Transaction {
     id?: number;
@@ -8,4 +8,6 @@ export interface Transaction {
     date: Date | string;
     type: TransactionType;
     category: Category;
+    dueDay?: number;
+    isPaid?: boolean;
 }

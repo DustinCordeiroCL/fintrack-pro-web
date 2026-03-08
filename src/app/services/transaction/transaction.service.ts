@@ -14,14 +14,16 @@ export class TransactionService {
   public listAll(): Observable<Transaction[]> {
     return this.#http.get<Transaction[]>(this.#API_URL).pipe(
       catchError((error) => {
+        console.error('[TransactionService] listAll failed:', error);
         return throwError(() => new Error('Failed to load transaction history.'));
       })
-    )
+    );
   }
 
   public create(transaction: Partial<Transaction>): Observable<Transaction> {
     return this.#http.post<Transaction>(this.#API_URL, transaction).pipe(
       catchError((error) => {
+        console.error('[TransactionService] create failed:', error);
         return throwError(() => new Error('Failed to register the transaction. Check your connection.'));
       })
     );

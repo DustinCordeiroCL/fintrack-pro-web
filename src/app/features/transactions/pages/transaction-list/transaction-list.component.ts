@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { TransactionService } from '../../../../services/transaction/transaction.service';
 import { CategoryService } from '../../../../services/category/category.service';
 import { Transaction } from '../../../../models/interfaces/transaction.interface';
@@ -16,6 +16,12 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+
+function typeEnumValidator(control: AbstractControl): ValidationErrors | null {
+  const validValues = Object.values(TransactionType);
+  return validValues.includes(control.value) ? null : { invalidType: true };
+}
 
 @Component({
   selector: 'app-transaction-list',
@@ -29,7 +35,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ButtonModule,
     DialogModule,
     ToastModule,
-    InputNumberModule
+    InputNumberModule,
+    InputTextModule
   ],
   providers: [MessageService],
   templateUrl: './transaction-list.component.html',
@@ -38,14 +45,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
 export class TransactionListComponent implements OnInit {
   readonly #fb = inject(FormBuilder);
   readonly #categoryService = inject(CategoryService);
-  readonly #transationService = inject(TransactionService);
+  readonly #transactionService = inject(TransactionService);
   readonly #messageService = inject(MessageService);
 
   public transactionForm!: FormGroup;
   public transactions = signal<Transaction[]>([]);
   public categories = signal<Category[]>([]);
   public displayDialog = signal<boolean>(false);
-
 
   ngOnInit(): void {
     this.initForm();
@@ -58,25 +64,20 @@ export class TransactionListComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(5)]],
       amount: [null, [Validators.required, Validators.min(0.01)]],
       date: [new Date(), [Validators.required]],
-      type: [null, [Validators.required, this.typeEnumValidator]],
+      type: [null, [Validators.required, typeEnumValidator]],
       category: [null, [Validators.required]]
     });
   }
 
-  private typeEnumValidator(control: any) {
-    const validValues = Object.values(TransactionType);
-    return validValues.includes(control.value) ? null : { invalidType: true };
-  }
-
   public loadTransactions(): void {
-    this.#transationService.listAll().subscribe({
+    this.#transactionService.listAll().subscribe({
       next: (response: Transaction[]) => {
         this.transactions.set(response);
       },
       error: () => {
         this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load transactions failed' });
       }
-    })
+    });
   }
 
   public loadCategories(): void {
@@ -85,19 +86,21 @@ export class TransactionListComponent implements OnInit {
       error: () => {
         this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load categories failed' });
       }
-    })
+    });
   }
 
   public saveTransaction(): void {
     if (this.transactionForm.valid) {
-      const transactionPayload: Partial<Transaction> = {
+      const transactionPayload = {
         ...this.transactionForm.value,
         date: this.transactionForm.value.date instanceof Date
           ? this.transactionForm.value.date.toISOString()
-          : this.transactionForm.value.date
+          : this.transactionForm.value.date,
+        categoryId: this.transactionForm.value.category?.id,
+        category: undefined
       };
 
-      this.#transationService.create(transactionPayload).subscribe({
+      this.#transactionService.create(transactionPayload).subscribe({
         next: () => {
           this.displayDialog.set(false);
           this.transactionForm.reset({ date: new Date() });
