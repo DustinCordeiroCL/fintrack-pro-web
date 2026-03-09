@@ -49,11 +49,12 @@ The application will be accessible at `http://localhost:4200`.
 ### Categories Management
 * **Interactive Table:** Responsive data table using p-table with dynamic color indicators.
 * **Reactive Creation:** Modal-based form (p-dialog) with real-time validation and feedback via p-toast.
+* **Rich Form Fields:** Category type selection (Essential/Discretionary) and CLP spending limit input.
 
 ### Transactions Management
 * **Orchestrated UI:** Complex data table featuring sorting, filtering, and localized CLP currency/date pipes.
 * **Dynamic Forms:** Transaction creation with dynamic category loading via CategoryService and strict Enum mapping (INCOME/EXPENSE).
-* **Advanced Components:** Integration with p-datepicker, p-inputNumber, and p-select for data normalization.
+* **Advanced Components:** Integration with p-datepicker, p-inputNumber (CLP/es-CL), and p-select for data normalization.
 
 ## 🚧 Roadmap & Issues
 
@@ -62,7 +63,7 @@ The application will be accessible at `http://localhost:4200`.
 - [x] **Issue #3:** Category Management UI (CRUD views, Reactive Forms & Toast feedback).
 - [x] **Issue #4:** Transaction UI and API Integration (Service mapping & Category orchestration).
 - [x] **Issue #5:** App Shell & Sidebar Navigation (Shell layout, dark sidebar & active route highlight).
-- [ ] **Issue #6:** Model Synchronization & CLP Currency.
+- [x] **Issue #6:** Model Synchronization & CLP Currency (Interface sync, CategoryType enum & CLP formatting).
 - [ ] **Issue #7:** Category CRUD Completion (Edit & Delete).
 - [ ] **Issue #8:** Transaction CRUD Completion (Edit & Delete).
 - [ ] **Issue #9:** Dashboard View (Financial summary with date range filter).
