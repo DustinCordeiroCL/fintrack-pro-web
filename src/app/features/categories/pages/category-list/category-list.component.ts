@@ -16,6 +16,8 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { MessageService } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-category-list',
@@ -30,9 +32,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ToastModule,
     ColorPickerModule,
     SelectModule,
-    InputNumberModule
+    InputNumberModule,
+    ConfirmDialogModule
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    ConfirmationService
+  ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss'
 })
@@ -41,6 +47,7 @@ export class CategoryListComponent implements OnInit {
   readonly #fb = inject(FormBuilder);
   readonly #categoryService = inject(CategoryService);
   readonly #messageService = inject(MessageService);
+  readonly #confirmationService = inject(ConfirmationService);
   readonly CategoryType = CategoryType;
 
   readonly categoryTypeOptions = Object.entries(CategoryType).map(([key, value]) => ({
@@ -51,6 +58,7 @@ export class CategoryListComponent implements OnInit {
   public categoryForm!: FormGroup;
   public categories = signal<Category[]>([]);
   public displayDialog = signal<boolean>(false);
+  public editingId = signal<number | null>(null);
 
   ngOnInit(): void {
     this.initForm();
@@ -80,20 +88,75 @@ export class CategoryListComponent implements OnInit {
 
   public saveCategory(): void {
     if (this.categoryForm.valid) {
-      this.#categoryService.create(this.categoryForm.value).subscribe({
+      const payload = this.categoryForm.value;
+      const isEditing = this.editingId();
+      const request$ = isEditing
+        ? this.#categoryService.update(isEditing, payload)
+        : this.#categoryService.create(payload);
+
+      request$.subscribe({
         next: () => {
           this.displayDialog.set(false);
+          this.editingId.set(null);
           this.loadCategories();
-          this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved' });
+          this.#messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: isEditing ? 'Category updated.' : 'Category created.'
+          });
         },
         error: () => {
-          this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Save failed' });
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Save failed'
+          });
         }
       });
     }
   }
 
+  public editCategory(category: Category): void {
+    this.editingId.set(category.id!);
+    this.categoryForm.patchValue({
+      name: category.name,
+      color: category.color,
+      description: category.description ?? '',
+      categoryType: category.categoryType ?? null,
+      spendingLimit: category.spendingLimit ?? null
+    });
+    this.displayDialog.set(true);
+  }
+
+  public deleteCategory(id: number): void {
+    this.#confirmationService.confirm({
+      message: 'Are you sure you want to delete this category?',
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.#categoryService.delete(id).subscribe({
+          next: () => {
+            this.loadCategories();
+            this.#messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Category deleted.'
+            });
+          },
+          error: () => {
+            this.#messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Delete failed.'
+            });
+          }
+        });
+      }
+    });
+  }
+
   public showDialog(): void {
+    this.editingId.set(null);
     this.categoryForm.reset({ color: ThemeConstants.DEFAULT_COLOR });
     this.displayDialog.set(true);
   }

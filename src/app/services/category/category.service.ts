@@ -28,4 +28,22 @@ export class CategoryService {
             })
         );
     }
+
+    public update(id: number, category: Partial<Category>): Observable<Category> {
+        return this.#http.put<Category>(`${this.#API_URL}/${id}`, category).pipe(
+            catchError((error) => {
+                console.error('[CategoryService] update failed:', error);
+                return throwError(() => new Error('Failed to update the category. Ensure the data is valid.'));
+            })
+        )
+    }
+
+    public delete(id: number): Observable<void> {
+        return this.#http.delete<void>(`${this.#API_URL}/${id}`).pipe(
+            catchError((error) => {
+                console.error('[CategoryService] delete failed:', error);
+                return throwError(() => new Error('Failed to delete the category.'));
+            })
+        )
+    }
 }

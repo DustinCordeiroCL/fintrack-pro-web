@@ -1,6 +1,7 @@
 <div class="card-container">
 
   <p-toast />
+  <p-confirmDialog />
 
   <div class="table-header">
     <h2 class="page-title">Category Management</h2>
@@ -27,8 +28,8 @@
         </td>
         <td>
           <div class="action-buttons">
-            <p-button icon="pi pi-pencil" [text]="true" severity="secondary"></p-button>
-            <p-button icon="pi pi-trash" [text]="true" severity="danger"></p-button>
+            <p-button icon="pi pi-pencil" [text]="true" severity="secondary" (onClick)="editCategory(category)" />
+            <p-button icon="pi pi-trash" [text]="true" severity="danger" (onClick)="deleteCategory(category.id!)" />
           </div>
         </td>
       </tr>
@@ -43,8 +44,7 @@
     </ng-template>
   </p-table>
 
-  <p-dialog header="Create Category" [(visible)]="displayDialog" [modal]="true">
-
+  <p-dialog [header]="editingId() ? 'Edit Category' : 'Create Category'" [(visible)]="displayDialog" [modal]="true">
     <form [formGroup]="categoryForm" class="category-form">
       <div class="form-field">
         <label for="name">Name</label>
@@ -66,6 +66,7 @@
         <p-select id="categoryType" [options]="categoryTypeOptions" formControlName="categoryType" optionLabel="label"
           optionValue="value" placeholder="Select Type" appendTo="body" />
       </div>
+
       <div class="form-field">
         <label for="spendingLimit">Spending Limit</label>
         <p-inputNumber id="spendingLimit" formControlName="spendingLimit" mode="currency" currency="CLP" locale="es-CL"
@@ -74,8 +75,9 @@
     </form>
 
     <ng-template pTemplate="footer">
-      <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)"></p-button>
-      <p-button label="Save Category" icon="pi pi-check" (onClick)="saveCategory()"></p-button>
+      <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
+      <p-button label="Save Category" icon="pi pi-check" (onClick)="saveCategory()" />
     </ng-template>
   </p-dialog>
+
 </div>
