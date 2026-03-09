@@ -17,6 +17,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 function typeEnumValidator(control: AbstractControl): ValidationErrors | null {
   const validValues = Object.values(TransactionType);
@@ -36,9 +38,13 @@ function typeEnumValidator(control: AbstractControl): ValidationErrors | null {
     DialogModule,
     ToastModule,
     InputNumberModule,
-    InputTextModule
+    InputTextModule,
+    ConfirmDialogModule
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    ConfirmationService
+  ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.scss',
 })
@@ -47,11 +53,13 @@ export class TransactionListComponent implements OnInit {
   readonly #categoryService = inject(CategoryService);
   readonly #transactionService = inject(TransactionService);
   readonly #messageService = inject(MessageService);
+  readonly #confirmationService = inject(ConfirmationService);
 
   public transactionForm!: FormGroup;
   public transactions = signal<Transaction[]>([]);
   public categories = signal<Category[]>([]);
   public displayDialog = signal<boolean>(false);
+  public editingId = signal<number | null>(null);
 
   ngOnInit(): void {
     this.initForm();
@@ -91,6 +99,7 @@ export class TransactionListComponent implements OnInit {
 
   public saveTransaction(): void {
     if (this.transactionForm.valid) {
+      const isEditing = this.editingId();
       const transactionPayload = {
         ...this.transactionForm.value,
         date: this.transactionForm.value.date instanceof Date
@@ -100,15 +109,20 @@ export class TransactionListComponent implements OnInit {
         category: undefined
       };
 
-      this.#transactionService.create(transactionPayload).subscribe({
+      const request$ = isEditing
+        ? this.#transactionService.update(isEditing, transactionPayload)
+        : this.#transactionService.create(transactionPayload);
+
+      request$.subscribe({
         next: () => {
           this.displayDialog.set(false);
+          this.editingId.set(null);
           this.transactionForm.reset({ date: new Date() });
           this.loadTransactions();
           this.#messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Transaction successfully synchronized with the database.'
+            detail: isEditing ? 'Transaction updated.' : 'Transaction successfully synchronized with the database.'
           });
         },
         error: (e) => {
@@ -123,7 +137,47 @@ export class TransactionListComponent implements OnInit {
   }
 
   public showDialog(): void {
-    this.transactionForm.reset();
+    this.editingId.set(null);
+    this.transactionForm.reset({ date: new Date() });
     this.displayDialog.set(true);
+  }
+
+  public editTransaction(transaction: Transaction): void {
+    this.editingId.set(transaction.id!);
+    this.transactionForm.patchValue({
+      description: transaction.description,
+      amount: transaction.amount,
+      date: new Date(transaction.date),
+      type: transaction.type,
+      category: transaction.category
+    });
+    this.displayDialog.set(true);
+  }
+
+  public deleteTransaction(id: number): void {
+    this.#confirmationService.confirm({
+      message: 'Are you sure you want to delete this transaction?',
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.#transactionService.delete(id).subscribe({
+          next: () => {
+            this.loadTransactions();
+            this.#messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Transaction deleted.'
+            });
+          },
+          error: () => {
+            this.#messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Delete failed.'
+            });
+          }
+        });
+      }
+    });
   }
 }

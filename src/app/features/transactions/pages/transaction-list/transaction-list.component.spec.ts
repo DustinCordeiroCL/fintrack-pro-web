@@ -5,7 +5,8 @@ import { CategoryService } from '../../../../services/category/category.service'
 import { MessageService } from 'primeng/api';
 import { of, throwError, Subject } from 'rxjs';
 import { TransactionType } from '../../../../models/enums/transaction-type.enum';
-import { AbstractControl } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
+
 
 describe('TransactionListComponent', () => {
   let component: TransactionListComponent;
@@ -13,7 +14,9 @@ describe('TransactionListComponent', () => {
 
   const transactionServiceMock = {
     listAll: jest.fn(),
-    create: jest.fn()
+    create: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn()
   };
 
   const categoryServiceMock = {
@@ -30,8 +33,9 @@ describe('TransactionListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TransactionListComponent],
       providers: [
+        ConfirmationService, { useValue: { confirm: jest.fn() } },
         { provide: TransactionService, useValue: transactionServiceMock },
-        { provide: CategoryService, useValue: categoryServiceMock }
+        { provide: CategoryService, useValue: categoryServiceMock },
       ]
     })
       .overrideProvider(MessageService, { useValue: messageServiceMock })
@@ -143,5 +147,68 @@ describe('TransactionListComponent', () => {
     const typeControl = component.transactionForm.controls['type'];
     typeControl.setValue('INVALID_TYPE');
     expect(typeControl.errors?.['invalidType']).toBe(true);
+  });
+
+  it('should populate form and set editingId when editTransaction is called', () => {
+    const mockTransaction = {
+      id: 1,
+      description: 'Salary',
+      amount: 500000,
+      date: '2024-01-15T00:00:00',
+      type: TransactionType.INCOME,
+      category: { id: 1, name: 'Investments', color: '#000' }
+    };
+
+    component.editTransaction(mockTransaction);
+
+    expect(component.editingId()).toBe(1);
+    expect(component.transactionForm.get('description')?.value).toBe('Salary');
+    expect(component.transactionForm.get('date')?.value).toBeInstanceOf(Date);
+    expect(component.displayDialog()).toBe(true);
+  });
+
+  it('should reset editingId to null when showDialog is called', () => {
+    component.editingId.set(1);
+
+    component.showDialog();
+
+    expect(component.editingId()).toBeNull();
+    expect(component.displayDialog()).toBe(true);
+  });
+
+  it('should call delete service and refresh list on confirm', () => {
+    transactionServiceMock.delete.mockReturnValue(of(void 0));
+    transactionServiceMock.listAll.mockReturnValue(of([]));
+
+    const confirmationService = fixture.debugElement.injector.get(ConfirmationService);
+    jest.spyOn(confirmationService, 'confirm').mockImplementation((config: any) => {
+      config.accept?.();
+      return confirmationService;
+    });
+
+    const messageSpy = jest.spyOn(messageServiceMock, 'add');
+
+    component.deleteTransaction(1);
+
+    expect(transactionServiceMock.delete).toHaveBeenCalledWith(1);
+    expect(messageSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ severity: 'success', detail: 'Transaction deleted.' })
+    );
+  });
+
+  it('should show error toast when delete fails', () => {
+    transactionServiceMock.delete.mockReturnValue(throwError(() => new Error('Delete error')));
+
+    const confirmationService = fixture.debugElement.injector.get(ConfirmationService);
+    jest.spyOn(confirmationService, 'confirm').mockImplementation((config: any) => {
+      config.accept?.();
+      return confirmationService;
+    });
+
+    component.deleteTransaction(1);
+
+    expect(messageServiceMock.add).toHaveBeenCalledWith(
+      expect.objectContaining({ severity: 'error', detail: 'Delete failed.' })
+    );
   });
 });

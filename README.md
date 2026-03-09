@@ -47,14 +47,14 @@ The application will be accessible at `http://localhost:4200`.
 * **Responsive Layout:** CSS Grid-based shell with fixed sidebar and scrollable content area.
 
 ### Categories Management
+* **Full CRUD:** Create, edit, and delete categories with confirmation dialog on deletion.
 * **Interactive Table:** Responsive data table using p-table with dynamic color indicators.
-* **Reactive Creation:** Modal-based form (p-dialog) with real-time validation and feedback via p-toast.
 * **Rich Form Fields:** Category type selection (Essential/Discretionary) and CLP spending limit input.
 
 ### Transactions Management
-* **Orchestrated UI:** Complex data table featuring sorting, filtering, and localized CLP currency/date pipes.
-* **Dynamic Forms:** Transaction creation with dynamic category loading via CategoryService and strict Enum mapping (INCOME/EXPENSE).
-* **Advanced Components:** Integration with p-datepicker, p-inputNumber (CLP/es-CL), and p-select for data normalization.
+* **Full CRUD:** Create, edit, and delete transactions with confirmation dialog on deletion.
+* **Orchestrated UI:** Data table with Actions column for edit and delete operations.
+* **Dynamic Forms:** Transaction creation and editing with dynamic category loading, CLP formatting, and strict Enum mapping (INCOME/EXPENSE).
 
 ## 🚧 Roadmap & Issues
 
@@ -64,8 +64,8 @@ The application will be accessible at `http://localhost:4200`.
 - [x] **Issue #4:** Transaction UI and API Integration (Service mapping & Category orchestration).
 - [x] **Issue #5:** App Shell & Sidebar Navigation (Shell layout, dark sidebar & active route highlight).
 - [x] **Issue #6:** Model Synchronization & CLP Currency (Interface sync, CategoryType enum & CLP formatting).
-- [ ] **Issue #7:** Category CRUD Completion (Edit & Delete).
-- [ ] **Issue #8:** Transaction CRUD Completion (Edit & Delete).
+- [x] **Issue #7:** Category CRUD Completion (Edit & Delete with ConfirmDialog).
+- [x] **Issue #8:** Transaction CRUD Completion (Edit & Delete with ConfirmDialog).
 - [ ] **Issue #9:** Dashboard View (Financial summary with date range filter).
 - [ ] **Issue #10:** UI Polish & UX Refinements (Loading states, validation feedback & empty states).
 

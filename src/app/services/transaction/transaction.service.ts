@@ -28,4 +28,22 @@ export class TransactionService {
       })
     );
   }
+
+  public update(id: number, transaction: Partial<Transaction>): Observable<Transaction> {
+    return this.#http.put<Transaction>(`${this.#API_URL}/${id}`, transaction).pipe(
+      catchError((error) => {
+        console.error('[TransactionService] update failed:', error);
+        return throwError(() => new Error('Failed to update the transaction. Ensure the data is valid.'));
+      })
+    );
+  }
+
+  public delete(id: number): Observable<void> {
+    return this.#http.delete<void>(`${this.#API_URL}/${id}`).pipe(
+      catchError((error) => {
+        console.error('[TransactionService] delete failed:', error);
+        return throwError(() => new Error('Failed to delete the transaction.'));
+      })
+    );
+  }
 }
