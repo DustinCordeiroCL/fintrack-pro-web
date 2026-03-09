@@ -55,6 +55,22 @@
         <label for="color">Theme Color</label>
         <p-colorPicker formControlName="color" appendTo="body" format="hex"></p-colorPicker>
       </div>
+
+      <div class="form-field">
+        <label for="description">Description</label>
+        <input pInputText id="description" formControlName="description" autocomplete="off" />
+      </div>
+
+      <div class="form-field">
+        <label for="categoryType">Category Type</label>
+        <p-select id="categoryType" [options]="categoryTypeOptions" formControlName="categoryType" optionLabel="label"
+          optionValue="value" placeholder="Select Type" appendTo="body" />
+      </div>
+      <div class="form-field">
+        <label for="spendingLimit">Spending Limit</label>
+        <p-inputNumber id="spendingLimit" formControlName="spendingLimit" mode="currency" currency="CLP" locale="es-CL"
+          placeholder="$ 0" />
+      </div>
     </form>
 
     <ng-template pTemplate="footer">

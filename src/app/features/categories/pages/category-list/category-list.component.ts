@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CategoryService } from '../../../../services/category/category.service';
 import { Category } from '../../../../models/interfaces/category.interface';
 import { ThemeConstants } from '../../../../core/constants/theme.constants';
+import { CategoryType } from '../../../../models/enums/category-type.enum';
 
 /* PrimeNG Imports */
 import { TableModule } from 'primeng/table';
@@ -13,6 +14,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { MessageService } from 'primeng/api';
+import { SelectModule } from 'primeng/select';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-category-list',
@@ -25,7 +28,9 @@ import { MessageService } from 'primeng/api';
     DialogModule,
     InputTextModule,
     ToastModule,
-    ColorPickerModule
+    ColorPickerModule,
+    SelectModule,
+    InputNumberModule
   ],
   providers: [MessageService],
   templateUrl: './category-list.component.html',
@@ -36,6 +41,12 @@ export class CategoryListComponent implements OnInit {
   readonly #fb = inject(FormBuilder);
   readonly #categoryService = inject(CategoryService);
   readonly #messageService = inject(MessageService);
+  readonly CategoryType = CategoryType;
+
+  readonly categoryTypeOptions = Object.entries(CategoryType).map(([key, value]) => ({
+    label: key.charAt(0) + key.slice(1).toLowerCase(),
+    value: value
+  }));
 
   public categoryForm!: FormGroup;
   public categories = signal<Category[]>([]);
@@ -49,14 +60,17 @@ export class CategoryListComponent implements OnInit {
   private initForm(): void {
     this.categoryForm = this.#fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      color: [ThemeConstants.DEFAULT_COLOR, [Validators.required]]
+      color: [ThemeConstants.DEFAULT_COLOR, [Validators.required]],
+      description: [''],
+      categoryType: [null],
+      spendingLimit: [null, [Validators.min(0)]]
     });
   }
 
   public loadCategories(): void {
     this.#categoryService.listAll().subscribe({
       next: (response: Category[]) => {
-        this.categories.set(response); // DOM optimization happens here
+        this.categories.set(response);
       },
       error: () => {
         this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load failed' });
@@ -65,7 +79,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public saveCategory(): void {
-    if(this.categoryForm.valid) {
+    if (this.categoryForm.valid) {
       this.#categoryService.create(this.categoryForm.value).subscribe({
         next: () => {
           this.displayDialog.set(false);

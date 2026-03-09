@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ThemeConstants } from '../../../../core/constants/theme.constants';
+import { CategoryType } from '../../../../models/enums/category-type.enum';
 
 describe('CategoryListComponent', () => {
   let component: CategoryListComponent;
@@ -52,8 +53,7 @@ describe('CategoryListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // Test method: loadCategories()
-  it('should load categories on init (Positive Path)', () => {
+  it('should load categories on init', () => {
     const mockCategories = [{ id: 1, name: 'Food', color: '#hex' }];
     categoryServiceMock.listAll.mockReturnValue(of(mockCategories));
 
@@ -62,7 +62,7 @@ describe('CategoryListComponent', () => {
     expect(component.categories()).toEqual(mockCategories);
   });
 
-  it('should show error toast when loadCategories fails (Negative Path)', () => {
+  it('should show error toast when loadCategories fails', () => {
     categoryServiceMock.listAll.mockReturnValue(throwError(() => new Error('API Error')));
     const messageSpy = jest.spyOn(messageService, 'add');
 
@@ -74,9 +74,15 @@ describe('CategoryListComponent', () => {
     }));
   });
 
-  //Test method: saveCategory()
-  it('should call create and refresh list on valid form submit (Positive Path)', () => {
-    component.categoryForm.setValue({ name: 'Travel', color: '#000000' });
+  it('should call create and refresh list on valid form submit', () => {
+    component.categoryForm.setValue({
+      name: 'Travel',
+      color: '#000000',
+      description: '',
+      categoryType: CategoryType.DISCRETIONARY,
+      spendingLimit: 50000
+    });
+
     categoryServiceMock.create.mockReturnValue(of({ id: 1, name: 'Travel', color: '#000000' }));
 
     const loadSpy = jest.spyOn(component, 'loadCategories');
@@ -84,16 +90,26 @@ describe('CategoryListComponent', () => {
 
     component.saveCategory();
 
-    expect(categoryServiceMock.create).toHaveBeenCalledWith({ name: 'Travel', color: '#000000' });
+    expect(categoryServiceMock.create).toHaveBeenCalledWith({
+      name: 'Travel',
+      color: '#000000',
+      description: '',
+      categoryType: CategoryType.DISCRETIONARY,
+      spendingLimit: 50000
+    });
     expect(loadSpy).toHaveBeenCalled();
     expect(component.displayDialog()).toBe(false);
-    expect(messageSpy).toHaveBeenCalledWith(expect.objectContaining({
-      severity: 'success'
-    }));
+    expect(messageSpy).toHaveBeenCalledWith(expect.objectContaining({ severity: 'success' }));
   });
 
-  it('should show error toast when saveCategory fails (Negative Path)', () => {
-    component.categoryForm.setValue({ name: 'Error', color: '#000' });
+  it('should show error toast when saveCategory fails', () => {
+    component.categoryForm.setValue({
+      name: 'Error',
+      color: '#000',
+      description: 'description test',
+      categoryType: CategoryType.DISCRETIONARY,
+      spendingLimit: 0
+    });
     categoryServiceMock.create.mockReturnValue(throwError(() => new Error('Save Error')));
     const messageSpy = jest.spyOn(messageService, 'add');
 
@@ -105,7 +121,6 @@ describe('CategoryListComponent', () => {
     }));
   });
 
-  //Test method: showDialog()
   it('should reset form and open dialog when showDialog is called', () => {
     component.categoryForm.get('name')?.setValue('Dirty Value');
 
@@ -114,5 +129,7 @@ describe('CategoryListComponent', () => {
     expect(component.displayDialog()).toBe(true);
     expect(component.categoryForm.get('name')?.value).toBeFalsy();
     expect(component.categoryForm.get('color')?.value).toBe(ThemeConstants.DEFAULT_COLOR);
+    expect(component.categoryForm.get('categoryType')?.value).toBeFalsy();
+    expect(component.categoryForm.get('spendingLimit')?.value).toBeFalsy();
   });
 });
