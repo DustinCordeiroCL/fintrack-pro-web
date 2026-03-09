@@ -1,0 +1,30 @@
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+        <i class="pi pi-wallet brand-icon"></i>
+        <span class="brand-name">FinTrack</span>
+        <span class="brand-accent">Pro</span>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul>
+            @for (item of navItems; track item.route) {
+            <li>
+                <a
+                [routerLink]="item.route"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="linkActiveOptions"
+                    class="nav-item">
+                    <i [class]="item.icon"></i>
+                    <span>{{ item.label }}</span>
+                </a>
+            </li>
+            }
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <span class="version-label">v1.0.0</span>
+    </div>
+
+</aside>
