@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 describe('CategoryService', () => {
     let categoryService: CategoryService;
     let httpMock: HttpTestingController;
+    const mockCategory = { id: 1, name: 'Health', color: '#FF0000' };
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -25,7 +26,6 @@ describe('CategoryService', () => {
         httpMock.verify();
     });
 
-    //Test method: listAll()
     it('should get data with GET method', () => {
         const mockData = [{ id: 1, name: 'Grocery' }];
 
@@ -39,7 +39,7 @@ describe('CategoryService', () => {
         req.flush(mockData);
     });
 
-    it('should handle error when API fails (Negative Path)', () => {
+    it('should handle error when API fails', () => {
         const errorMessage = 'Internal Server Error';
 
         categoryService.listAll().subscribe({
@@ -55,7 +55,6 @@ describe('CategoryService', () => {
         req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
     });
 
-    //Test method: create()
     it('should create a new category with POST method', () => {
         const newCategory = { name: 'Health', color: '#FF0000' };
         const mockResponse = { id: 2, ...newCategory };
@@ -72,7 +71,7 @@ describe('CategoryService', () => {
         req.flush(mockResponse, { status: 201, statusText: 'Created' });
     });
 
-    it('should handle error when creation fails (Negative Path)', () => {
+    it('should handle error when creation fails', () => {
         const newCategory = { name: 'Error Case', color: '#000' };
 
         categoryService.create(newCategory).subscribe({
@@ -85,5 +84,50 @@ describe('CategoryService', () => {
         const req = httpMock.expectOne(`${environment.apiUrl}/categories`);
 
         req.flush('Invalid Data', { status: 400, statusText: 'Bad Request' });
+    });
+
+    it('should update a category with PUT method', () => {
+        categoryService.update(1, mockCategory).subscribe((data) => {
+            expect(data).toEqual(mockCategory);
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/categories/1`);
+        expect(req.request.method).toBe('PUT');
+        expect(req.request.body).toEqual(mockCategory);
+        req.flush(mockCategory);
+    });
+
+    it('should handle error when update fails', () => {
+        categoryService.update(1, mockCategory).subscribe({
+            next: () => fail('Should have failed'),
+            error: (error) => {
+                expect(error.message).toBe('Failed to update the category. Ensure the data is valid.');
+            }
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/categories/1`);
+        req.error(new ProgressEvent('error'));
+    });
+
+    it('should delete a category with DELETE method', () => {
+        categoryService.delete(1).subscribe(() => {
+            expect(true).toBe(true);
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/categories/1`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(null, { status: 204, statusText: 'No Content' });
+    });
+
+    it('should handle error when delete fails', () => {
+        categoryService.delete(1).subscribe({
+            next: () => fail('Should have failed'),
+            error: (error) => {
+                expect(error.message).toBe('Failed to delete the category.');
+            }
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/categories/1`);
+        req.error(new ProgressEvent('error'));
     });
 });
