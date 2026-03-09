@@ -1,5 +1,6 @@
 <div class="card-container">
   <p-toast />
+  <p-confirmDialog />
 
   <div class="table-header">
     <h2 class="page-title">Transaction Management</h2>
@@ -14,6 +15,7 @@
         <th>Category</th>
         <th>Type</th>
         <th>Amount</th>
+        <th>Actions</th>
       </tr>
     </ng-template>
 
@@ -34,19 +36,27 @@
         <td class="amount-cell">
           {{ transaction.amount | currency: 'CLP' : 'symbol-narrow' : '1.0-0' }}
         </td>
+        <td>
+          <div class="action-buttons">
+            <p-button icon="pi pi-pencil" [text]="true" severity="secondary" (onClick)="editTransaction(transaction)" />
+            <p-button icon="pi pi-trash" [text]="true" severity="danger"
+              (onClick)="deleteTransaction(transaction.id!)" />
+          </div>
+        </td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5" class="empty-message">
+        <td colspan="6" class="empty-message">
           No transactions found. Click "New Transaction" to start.
         </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <p-dialog header="New Transaction" [(visible)]="displayDialog" [modal]="true" styleClass="transaction-dialog">
+  <p-dialog [header]="editingId() ? 'Edit Transaction' : 'New Transaction'" [(visible)]="displayDialog" [modal]="true"
+    styleClass="transaction-dialog">
     <form [formGroup]="transactionForm" class="transaction-form">
       <div class="form-field">
         <label for="description">Description</label>

@@ -83,4 +83,49 @@ describe('TransactionService', () => {
     const req = httpMock.expectOne(API_URL);
     req.error(new ProgressEvent('error'));
   });
+
+  it('should update a transaction with PUT method', () => {
+    service.update(1, mockTransaction).subscribe((data) => {
+      expect(data).toEqual(mockTransaction);
+    });
+
+    const req = httpMock.expectOne(`${API_URL}/1`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(mockTransaction);
+    req.flush(mockTransaction);
+  });
+
+  it('should throw custom error when update fails', () => {
+    service.update(1, mockTransaction).subscribe({
+      next: () => fail('should have failed with the custom error'),
+      error: (err) => {
+        expect(err.message).toBe('Failed to update the transaction. Ensure the data is valid.');
+      }
+    });
+
+    const req = httpMock.expectOne(`${API_URL}/1`);
+    req.error(new ProgressEvent('error'));
+  });
+
+  it('should delete a transaction with DELETE method', () => {
+    service.delete(1).subscribe(() => {
+      expect(true).toBe(true);
+    });
+
+    const req = httpMock.expectOne(`${API_URL}/1`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null, { status: 204, statusText: 'No Content' });
+  });
+
+  it('should throw custom error when delete fails', () => {
+    service.delete(1).subscribe({
+      next: () => fail('should have failed with the custom error'),
+      error: (err) => {
+        expect(err.message).toBe('Failed to delete the transaction.');
+      }
+    });
+
+    const req = httpMock.expectOne(`${API_URL}/1`);
+    req.error(new ProgressEvent('error'));
+  });
 });
