@@ -1,13 +1,10 @@
 <div class="card-container">
-
   <p-toast />
   <p-confirmDialog />
-
   <div class="table-header">
     <h2 class="page-title">Category Management</h2>
     <p-button label="New Category" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
   </div>
-
   <p-table [value]="categories()" styleClass="p-datatable-striped">
     <ng-template pTemplate="header">
       <tr>
@@ -16,7 +13,6 @@
         <th>Actions</th>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="body" let-category>
       <tr>
         <td>{{ category.name }}</td>
@@ -34,7 +30,6 @@
         </td>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="emptymessage">
       <tr>
         <td colspan="3" class="empty-message">
@@ -43,41 +38,34 @@
       </tr>
     </ng-template>
   </p-table>
-
   <p-dialog [header]="editingId() ? 'Edit Category' : 'Create Category'" [(visible)]="displayDialog" [modal]="true">
     <form [formGroup]="categoryForm" class="category-form">
       <div class="form-field">
         <label for="name">Name</label>
         <input pInputText id="name" formControlName="name" autocomplete="off" />
       </div>
-
       <div class="form-field">
         <label for="color">Theme Color</label>
         <p-colorPicker formControlName="color" appendTo="body" format="hex"></p-colorPicker>
       </div>
-
       <div class="form-field">
         <label for="description">Description</label>
         <input pInputText id="description" formControlName="description" autocomplete="off" />
       </div>
-
       <div class="form-field">
         <label for="categoryType">Category Type</label>
         <p-select id="categoryType" [options]="categoryTypeOptions" formControlName="categoryType" optionLabel="label"
           optionValue="value" placeholder="Select Type" appendTo="body" />
       </div>
-
       <div class="form-field">
         <label for="spendingLimit">Spending Limit</label>
         <p-inputNumber id="spendingLimit" formControlName="spendingLimit" mode="currency" currency="CLP" locale="es-CL"
           placeholder="$ 0" />
       </div>
     </form>
-
     <ng-template pTemplate="footer">
       <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
       <p-button label="Save Category" icon="pi pi-check" (onClick)="saveCategory()" />
     </ng-template>
   </p-dialog>
-
 </div>

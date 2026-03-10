@@ -19,7 +19,12 @@ export const routes: Routes = [
           import('./features/transactions/transaction.routes')
             .then(m => m.TRANSACTION_ROUTES)
       },
-      { path: 'dashboard', redirectTo: 'transactions', pathMatch: 'full' }
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.routes')
+            .then(m => m.DASHBOARD_ROUTES)
+      },
     ]
   }
 ];

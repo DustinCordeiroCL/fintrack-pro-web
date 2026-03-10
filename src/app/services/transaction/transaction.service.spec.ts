@@ -5,6 +5,7 @@ import { TransactionService } from './transaction.service';
 import { environment } from '../../../environments/environment';
 import { Transaction } from '../../models/interfaces/transaction.interface';
 import { TransactionType } from '../../models/enums/transaction-type.enum';
+import { DashboardResponse } from '../../models/interfaces/dashboard-response.interface';
 
 describe('TransactionService', () => {
   let service: TransactionService;
@@ -126,6 +127,40 @@ describe('TransactionService', () => {
     });
 
     const req = httpMock.expectOne(`${API_URL}/1`);
+    req.error(new ProgressEvent('error'));
+  });
+
+  it('should fetch dashboard data with correct query params', () => {
+    const mockDashboard: DashboardResponse = {
+      totalIncome: 1000000,
+      totalExpense: 500000,
+      balance: 500000
+    };
+
+    service.getDashboard('2024-01-01', '2024-01-31').subscribe((data) => {
+      expect(data).toEqual(mockDashboard);
+    });
+
+    const req = httpMock.expectOne(
+      (r) => r.url === `${API_URL}/dashboard` &&
+        r.params.get('start') === '2024-01-01' &&
+        r.params.get('end') === '2024-01-31'
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(mockDashboard);
+  });
+
+  it('should throw custom error when getDashboard fails', () => {
+    service.getDashboard('2024-01-01', '2024-01-31').subscribe({
+      next: () => fail('should have failed with the custom error'),
+      error: (err) => {
+        expect(err.message).toBe('Failed to load dashboard data.');
+      }
+    });
+
+    const req = httpMock.expectOne(
+      (r) => r.url === `${API_URL}/dashboard`
+    );
     req.error(new ProgressEvent('error'));
   });
 });

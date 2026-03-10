@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Transaction } from '../../models/interfaces/transaction.interface';
+import { DashboardResponse } from '../../models/interfaces/dashboard-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,19 @@ export class TransactionService {
       catchError((error) => {
         console.error('[TransactionService] delete failed:', error);
         return throwError(() => new Error('Failed to delete the transaction.'));
+      })
+    );
+  }
+
+  public getDashboard(start: string, end: string): Observable<DashboardResponse> {
+    const params = new HttpParams()
+      .set('start', start)
+      .set('end', end);
+
+    return this.#http.get<DashboardResponse>(`${this.#API_URL}/dashboard`, { params }).pipe(
+      catchError((error) => {
+        console.error('[TransactionService] getDashboard failed:', error);
+        return throwError(() => new Error('Failed to load dashboard data.'));
       })
     );
   }
