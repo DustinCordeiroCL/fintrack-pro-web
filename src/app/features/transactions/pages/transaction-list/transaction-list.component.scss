@@ -105,3 +105,32 @@
     border-radius: 4px !important;
   }
 }
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px solid var(--p-content-border-color);
+  margin-bottom: 0.5rem;
+
+  .filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--p-text-muted-color);
+    }
+  }
+
+  .filter-actions {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding-bottom: 2px;
+  }
+}
