@@ -54,13 +54,13 @@ The application will be accessible at `http://localhost:4200`.
 
 ### Categories Management
 * **Full CRUD:** Create, edit, and delete categories with confirmation dialog on deletion.
-* **Interactive Table:** Responsive data table with skeleton loading, dynamic color indicators, and improved empty state.
+* **Interactive Table:** Responsive data table with skeleton loading, dynamic color indicators, and improved empty state. Sorted alphabetically by name by default.
 * **Rich Form Fields:** Category type selection (Essential/Discretionary), CLP spending limit, and inline validation feedback.
 
 ### Transactions Management
 * **Full CRUD:** Create, edit, and delete transactions with confirmation dialog on deletion.
 * **Filter Bar:** Client-side filtering by date range, category, and type with AND logic. Defaults to current month. Clear button restores default view.
-* **Orchestrated UI:** Data table with skeleton loading, Actions column, and improved empty state.
+* **Orchestrated UI:** Data table with skeleton loading, Actions column, and improved empty state. Sorted by date descending by default.
 * **Dynamic Forms:** Transaction creation and editing with inline validation, CLP formatting, and strict Enum mapping (INCOME/EXPENSE).
 
 ## 🚧 Roadmap & Issues
@@ -77,8 +77,8 @@ The application will be accessible at `http://localhost:4200`.
 - [x] **Issue #10:** UI Polish & UX Refinements (Skeleton loading, inline validation, and improved empty states).
 - [x] **Issue #11:** Dashboard Bar Chart (Dynamic Income vs Expense chart with month context window, palette-aligned colors, and date validation).
 - [x] **Issue #12:** Transaction List Filters (Client-side filtering by date range, category, and type with current month default).
-- [ ] **Issue #13:** Transaction Default Sort by Date.
-- [ ] **Issue #14:** Category Default Sort by Name.
+- [x] **Issue #13:** Transaction Default Sort by Date (Descending, with sortable column header).
+- [x] **Issue #14:** Category Default Sort by Name (Ascending, with sortable column header).
 
 ## 📄 License
 
