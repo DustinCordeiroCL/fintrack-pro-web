@@ -93,4 +93,14 @@
         background-color: #f8d7da;
         color: #721c24;
     }
+
+}
+
+.chart-container {
+    height: 400px;
+    background: var(--p-content-background);
+    border: 1px solid var(--p-content-border-color);
+    border-radius: var(--p-border-radius-xl);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
 }

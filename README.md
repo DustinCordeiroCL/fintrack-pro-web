@@ -48,7 +48,8 @@ The application will be accessible at `http://localhost:4200`.
 
 ### Dashboard
 * **Financial Summary:** Three summary cards displaying Total Income, Total Expense, and Balance in CLP.
-* **Date Range Filter:** Two date pickers with an Apply button to re-fetch data for a custom period.
+* **Bar Chart:** Dynamic Income vs Expense chart grouped by month. Shows 2 months of context before the selected start date, and up to 2 months after (capped at current month).
+* **Date Range Filter:** Two date pickers with an Apply button to re-fetch data and update both cards and chart. Future dates and invalid ranges are blocked.
 * **Default View:** Automatically loads current month data on initialization.
 
 ### Categories Management
@@ -73,6 +74,10 @@ The application will be accessible at `http://localhost:4200`.
 - [x] **Issue #8:** Transaction CRUD Completion (Edit & Delete with ConfirmDialog).
 - [x] **Issue #9:** Dashboard View (Financial summary cards with CLP formatting and date range filter).
 - [x] **Issue #10:** UI Polish & UX Refinements (Skeleton loading, inline validation, and improved empty states).
+- [x] **Issue #11:** Dashboard Bar Chart (Dynamic Income vs Expense chart with month context window, palette-aligned colors, and date validation).
+- [ ] **Issue #12:** Transaction List Filters (Date, Category, Type).
+- [ ] **Issue #13:** Transaction Default Sort by Date.
+- [ ] **Issue #14:** Category Default Sort by Name.
 
 ## 📄 License
 

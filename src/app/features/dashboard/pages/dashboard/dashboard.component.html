@@ -2,11 +2,11 @@
     <div class="dashboard-header">
         <h2 class="page-title">Dashboard</h2>
         <form [formGroup]="filterForm" class="filter-form">
-            <p-datepicker formControlName="startDate" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"
-                placeholder="Start date" />
+            <p-datepicker formControlName="startDate" dateFormat="mm/dd/yy" [showIcon]="true" [maxDate]="today"
+                (onSelect)="onStartDateSelect()" appendTo="body" />
             <span class="filter-separator">to</span>
-            <p-datepicker formControlName="endDate" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"
-                placeholder="End date" />
+            <p-datepicker formControlName="endDate" dateFormat="mm/dd/yy" [showIcon]="true" [minDate]="minEndDate()"
+                [maxDate]="today" appendTo="body" />
             <p-button label="Apply" icon="pi pi-filter" (onClick)="loadDashboard()" />
         </form>
     </div>
@@ -46,6 +46,11 @@
                 </span>
             </div>
         </div>
+    </div>
+    }
+    @if (chartData()) {
+    <div class="chart-container">
+        <p-chart type="bar" [data]="chartData()" [options]="chartOptions()" />
     </div>
     }
 </div>
