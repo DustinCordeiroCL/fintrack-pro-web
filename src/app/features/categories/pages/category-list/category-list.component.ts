@@ -154,8 +154,8 @@ export class CategoryListComponent implements OnInit {
           error: () => {
             this.#messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: 'Delete failed.'
+              summary: 'Cannot Delete',
+              detail: 'This category has linked transactions. Remove them first.'
             });
           }
         });
