@@ -53,13 +53,13 @@ The application will be accessible at `http://localhost:4200`.
 
 ### Categories Management
 * **Full CRUD:** Create, edit, and delete categories with confirmation dialog on deletion.
-* **Interactive Table:** Responsive data table using p-table with dynamic color indicators.
-* **Rich Form Fields:** Category type selection (Essential/Discretionary) and CLP spending limit input.
+* **Interactive Table:** Responsive data table with skeleton loading, dynamic color indicators, and improved empty state.
+* **Rich Form Fields:** Category type selection (Essential/Discretionary), CLP spending limit, and inline validation feedback.
 
 ### Transactions Management
 * **Full CRUD:** Create, edit, and delete transactions with confirmation dialog on deletion.
-* **Orchestrated UI:** Data table with Actions column for edit and delete operations.
-* **Dynamic Forms:** Transaction creation and editing with dynamic category loading, CLP formatting, and strict Enum mapping (INCOME/EXPENSE).
+* **Orchestrated UI:** Data table with skeleton loading, Actions column, and improved empty state.
+* **Dynamic Forms:** Transaction creation and editing with inline validation, CLP formatting, and strict Enum mapping (INCOME/EXPENSE).
 
 ## 🚧 Roadmap & Issues
 
@@ -72,7 +72,7 @@ The application will be accessible at `http://localhost:4200`.
 - [x] **Issue #7:** Category CRUD Completion (Edit & Delete with ConfirmDialog).
 - [x] **Issue #8:** Transaction CRUD Completion (Edit & Delete with ConfirmDialog).
 - [x] **Issue #9:** Dashboard View (Financial summary cards with CLP formatting and date range filter).
-- [ ] **Issue #10:** UI Polish & UX Refinements (Loading states, validation feedback & empty states).
+- [x] **Issue #10:** UI Polish & UX Refinements (Skeleton loading, inline validation, and improved empty states).
 
 ## 📄 License
 

@@ -201,4 +201,20 @@ describe('CategoryListComponent', () => {
       expect.objectContaining({ severity: 'error', detail: 'Delete failed.' })
     );
   });
+
+  it('should set isLoading to false after categories load successfully', () => {
+    categoryServiceMock.listAll.mockReturnValue(of([]));
+
+    component.loadCategories();
+
+    expect(component.isLoading()).toBe(false);
+  });
+
+  it('should set isLoading to false even when loadCategories fails', () => {
+    categoryServiceMock.listAll.mockReturnValue(throwError(() => new Error('API Error')));
+
+    component.loadCategories();
+
+    expect(component.isLoading()).toBe(false);
+  });
 });

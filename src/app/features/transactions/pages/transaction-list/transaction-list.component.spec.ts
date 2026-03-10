@@ -211,4 +211,20 @@ describe('TransactionListComponent', () => {
       expect.objectContaining({ severity: 'error', detail: 'Delete failed.' })
     );
   });
+
+  it('should set isLoading to false after transactions load successfully', () => {
+    transactionServiceMock.listAll.mockReturnValue(of([]));
+
+    component.loadTransactions();
+
+    expect(component.isLoading()).toBe(false);
+  });
+
+  it('should set isLoading to false even when loadTransactions fails', () => {
+    transactionServiceMock.listAll.mockReturnValue(throwError(() => new Error('API Error')));
+
+    component.loadTransactions();
+
+    expect(component.isLoading()).toBe(false);
+  });
 });

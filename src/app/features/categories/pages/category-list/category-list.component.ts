@@ -18,6 +18,8 @@ import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SkeletonModule } from 'primeng/skeleton';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-category-list',
@@ -33,7 +35,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ColorPickerModule,
     SelectModule,
     InputNumberModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    SkeletonModule,
+    MessageModule
   ],
   providers: [
     MessageService,
@@ -59,6 +63,7 @@ export class CategoryListComponent implements OnInit {
   public categories = signal<Category[]>([]);
   public displayDialog = signal<boolean>(false);
   public editingId = signal<number | null>(null);
+  public isLoading = signal<boolean>(true);
 
   ngOnInit(): void {
     this.initForm();
@@ -76,11 +81,14 @@ export class CategoryListComponent implements OnInit {
   }
 
   public loadCategories(): void {
+    this.isLoading.set(true);
     this.#categoryService.listAll().subscribe({
       next: (response: Category[]) => {
         this.categories.set(response);
+        this.isLoading.set(false);
       },
       error: () => {
+        this.isLoading.set(false);
         this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load failed' });
       }
     });

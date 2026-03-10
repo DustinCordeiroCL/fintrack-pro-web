@@ -19,6 +19,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SkeletonModule } from 'primeng/skeleton';
+import { MessageModule } from 'primeng/message';
 
 function typeEnumValidator(control: AbstractControl): ValidationErrors | null {
   const validValues = Object.values(TransactionType);
@@ -39,7 +41,9 @@ function typeEnumValidator(control: AbstractControl): ValidationErrors | null {
     ToastModule,
     InputNumberModule,
     InputTextModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    SkeletonModule,
+    MessageModule
   ],
   providers: [
     MessageService,
@@ -60,6 +64,7 @@ export class TransactionListComponent implements OnInit {
   public categories = signal<Category[]>([]);
   public displayDialog = signal<boolean>(false);
   public editingId = signal<number | null>(null);
+  public isLoading = signal<boolean>(true);
 
   ngOnInit(): void {
     this.initForm();
@@ -78,11 +83,14 @@ export class TransactionListComponent implements OnInit {
   }
 
   public loadTransactions(): void {
+    this.isLoading.set(true);
     this.#transactionService.listAll().subscribe({
       next: (response: Transaction[]) => {
         this.transactions.set(response);
+        this.isLoading.set(false);
       },
       error: () => {
+        this.isLoading.set(false);
         this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load transactions failed' });
       }
     });
