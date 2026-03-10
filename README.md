@@ -46,6 +46,11 @@ The application will be accessible at `http://localhost:4200`.
 * **Persistent Sidebar:** Dark blue-teal sidebar with logo, navigation links, and active route highlight.
 * **Responsive Layout:** CSS Grid-based shell with fixed sidebar and scrollable content area.
 
+### Dashboard
+* **Financial Summary:** Three summary cards displaying Total Income, Total Expense, and Balance in CLP.
+* **Date Range Filter:** Two date pickers with an Apply button to re-fetch data for a custom period.
+* **Default View:** Automatically loads current month data on initialization.
+
 ### Categories Management
 * **Full CRUD:** Create, edit, and delete categories with confirmation dialog on deletion.
 * **Interactive Table:** Responsive data table using p-table with dynamic color indicators.
@@ -66,7 +71,7 @@ The application will be accessible at `http://localhost:4200`.
 - [x] **Issue #6:** Model Synchronization & CLP Currency (Interface sync, CategoryType enum & CLP formatting).
 - [x] **Issue #7:** Category CRUD Completion (Edit & Delete with ConfirmDialog).
 - [x] **Issue #8:** Transaction CRUD Completion (Edit & Delete with ConfirmDialog).
-- [ ] **Issue #9:** Dashboard View (Financial summary with date range filter).
+- [x] **Issue #9:** Dashboard View (Financial summary cards with CLP formatting and date range filter).
 - [ ] **Issue #10:** UI Polish & UX Refinements (Loading states, validation feedback & empty states).
 
 ## 📄 License

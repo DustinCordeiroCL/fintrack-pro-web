@@ -1,0 +1,96 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .page-title {
+        font-weight: bold;
+        color: var(--surface-900);
+        margin: 0;
+    }
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .filter-separator {
+        color: var(--surface-500);
+        font-size: 0.9rem;
+    }
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.summary-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border-radius: var(--p-border-radius-xl);
+    border: 1px solid var(--p-content-border-color);
+    background: var(--p-content-background);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+
+    .card-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .card-label {
+            font-size: 0.85rem;
+            color: var(--surface-500);
+            font-weight: 500;
+        }
+
+        .card-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--surface-900);
+        }
+    }
+
+    &.income .card-icon {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    &.expense .card-icon {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    &.positive .card-icon {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+
+    &.negative .card-icon {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+}

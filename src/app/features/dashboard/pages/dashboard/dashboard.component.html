@@ -1,0 +1,51 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2 class="page-title">Dashboard</h2>
+        <form [formGroup]="filterForm" class="filter-form">
+            <p-datepicker formControlName="startDate" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"
+                placeholder="Start date" />
+            <span class="filter-separator">to</span>
+            <p-datepicker formControlName="endDate" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"
+                placeholder="End date" />
+            <p-button label="Apply" icon="pi pi-filter" (onClick)="loadDashboard()" />
+        </form>
+    </div>
+    @if (dashboardData(); as data) {
+    <div class="summary-cards">
+
+        <div class="summary-card income">
+            <div class="card-icon">
+                <i class="pi pi-arrow-up"></i>
+            </div>
+            <div class="card-content">
+                <span class="card-label">Total Income</span>
+                <span class="card-value">
+                    {{ data.totalIncome | currency: 'CLP' : 'symbol-narrow' : '1.0-0' }}
+                </span>
+            </div>
+        </div>
+        <div class="summary-card expense">
+            <div class="card-icon">
+                <i class="pi pi-arrow-down"></i>
+            </div>
+            <div class="card-content">
+                <span class="card-label">Total Expense</span>
+                <span class="card-value">
+                    {{ data.totalExpense | currency: 'CLP' : 'symbol-narrow' : '1.0-0' }}
+                </span>
+            </div>
+        </div>
+        <div class="summary-card" [class.positive]="data.balance >= 0" [class.negative]="data.balance < 0">
+            <div class="card-icon">
+                <i class="pi pi-wallet"></i>
+            </div>
+            <div class="card-content">
+                <span class="card-label">Balance</span>
+                <span class="card-value">
+                    {{ data.balance | currency: 'CLP' : 'symbol-narrow' : '1.0-0' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    }
+</div>
