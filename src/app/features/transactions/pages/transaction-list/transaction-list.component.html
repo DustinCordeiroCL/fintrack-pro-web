@@ -3,7 +3,7 @@
   <p-confirmDialog />
   <div class="table-header">
     <h2 class="page-title">Transaction Management</h2>
-    <p-button label="New Transaction" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
+    <p-button label="New Transaction" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
   </div>
   <p-table [value]="transactions()" styleClass="p-datatable-striped" [scrollable]="true">
     <ng-template pTemplate="header">
@@ -17,6 +17,18 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-transaction>
+      @if (isLoading()) {
+      @for (_ of [1,2,3,4,5]; track $index) {
+      <tr>
+        <td><p-skeleton styleClass="skeleton-row" /></td>
+        <td><p-skeleton styleClass="skeleton-row" /></td>
+        <td><p-skeleton styleClass="skeleton-row" /></td>
+        <td><p-skeleton styleClass="skeleton-row" /></td>
+        <td><p-skeleton styleClass="skeleton-row" /></td>
+        <td><p-skeleton styleClass="skeleton-row" /></td>
+      </tr>
+      }
+      } @else {
       <tr>
         <td>{{ transaction.date | date: 'MM/dd/yyyy' }}</td>
         <td>{{ transaction.description }}</td>
@@ -41,13 +53,20 @@
           </div>
         </td>
       </tr>
+      }
     </ng-template>
     <ng-template pTemplate="emptymessage">
+      @if (!isLoading()) {
       <tr>
-        <td colspan="6" class="empty-message">
-          No transactions found. Click "New Transaction" to start.
+        <td colspan="6">
+          <div class="empty-state">
+            <i class="pi pi-arrows-h empty-state-icon"></i>
+            <span class="empty-state-title">No transactions found</span>
+            <span class="empty-state-subtitle">Click "New Transaction" to register your first transaction.</span>
+          </div>
         </td>
       </tr>
+      }
     </ng-template>
   </p-table>
   <p-dialog [header]="editingId() ? 'Edit Transaction' : 'New Transaction'" [(visible)]="displayDialog" [modal]="true"
@@ -55,7 +74,12 @@
     <form [formGroup]="transactionForm" class="transaction-form">
       <div class="form-field">
         <label for="description">Description</label>
-        <input pInputText id="description" formControlName="description" />
+        <input pInputText id="description" formControlName="description"
+          [class.ng-invalid]="transactionForm.get('description')?.invalid"
+          [class.ng-dirty]="transactionForm.get('description')?.dirty" />
+        @if (transactionForm.get('description')?.invalid && transactionForm.get('description')?.dirty) {
+        <p-message severity="error" text="Description is required and must be at least 5 characters." />
+        }
       </div>
       <div class="form-field">
         <label for="amount">Amount</label>
