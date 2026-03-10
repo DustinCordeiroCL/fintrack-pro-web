@@ -198,7 +198,7 @@ describe('CategoryListComponent', () => {
     component.deleteCategory(1);
 
     expect(messageSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ severity: 'error', detail: 'Delete failed.' })
+      expect.objectContaining({ severity: 'error', detail: 'This category has linked transactions. Remove them first.' })
     );
   });
 
