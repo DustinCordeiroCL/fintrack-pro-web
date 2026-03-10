@@ -5,10 +5,10 @@
     <h2 class="page-title">Category Management</h2>
     <p-button label="New Category" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
   </div>
-  <p-table [value]="categories()" styleClass="p-datatable-striped">
-    <ng-template pTemplate="header">
+  <p-table [value]="categories()" styleClass="p-datatable-striped" sortField="name" [sortOrder]="1"> <ng-template
+      pTemplate="header">
       <tr>
-        <th>Name</th>
+        <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
         <th>Color</th>
         <th>Actions</th>
       </tr>
