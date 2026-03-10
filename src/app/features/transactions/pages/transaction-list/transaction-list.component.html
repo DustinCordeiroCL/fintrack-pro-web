@@ -31,10 +31,10 @@
       <p-button label="Clear" icon="pi pi-times" severity="secondary" [text]="true" (onClick)="clearFilter()" />
     </div>
   </div>
-  <p-table [value]="filteredTransactions()" styleClass="p-datatable-striped" [scrollable]="true">
-    <ng-template pTemplate="header">
+  <p-table [value]="filteredTransactions()" styleClass="p-datatable-striped" [scrollable]="true" sortField="date"
+    [sortOrder]="-1"> <ng-template pTemplate="header">
       <tr>
-        <th>Date</th>
+        <th pSortableColumn="date">Date <p-sortIcon field="date" /></th>
         <th>Description</th>
         <th>Category</th>
         <th>Type</th>
