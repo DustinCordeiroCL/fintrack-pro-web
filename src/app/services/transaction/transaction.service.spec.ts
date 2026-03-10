@@ -134,7 +134,8 @@ describe('TransactionService', () => {
     const mockDashboard: DashboardResponse = {
       totalIncome: 1000000,
       totalExpense: 500000,
-      balance: 500000
+      balance: 500000,
+      transactions: []
     };
 
     service.getDashboard('2024-01-01', '2024-01-31').subscribe((data) => {

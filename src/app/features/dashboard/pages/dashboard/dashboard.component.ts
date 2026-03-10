@@ -20,11 +20,11 @@ function getLastDayOfMonth(): Date {
 }
 
 function toApiDateStart(date: Date): string {
-  return date.toISOString().split('T')[0] + 'T00:00:00';
+    return date.toISOString().split('T')[0] + 'T00:00:00';
 }
 
 function toApiDateEnd(date: Date): string {
-  return date.toISOString().split('T')[0] + 'T23:59:59';
+    return date.toISOString().split('T')[0] + 'T23:59:59';
 }
 
 @Component({
@@ -60,13 +60,13 @@ export class DashboardComponent implements OnInit {
     }
 
     public loadDashboard(): void {
-    const { startDate, endDate } = this.filterForm.value;
-    const start = toApiDateStart(startDate);
-    const end   = toApiDateEnd(endDate);
+        const { startDate, endDate } = this.filterForm.value;
+        const start = toApiDateStart(startDate);
+        const end = toApiDateEnd(endDate);
 
-    this.#transactionService.getDashboard(start, end).subscribe({
-      next:  (data) => this.dashboardData.set(data),
-      error: ()     => this.dashboardData.set(null)
-    });
-  }
+        this.#transactionService.getDashboard(start, end).subscribe({
+            next: (data) => this.dashboardData.set(data),
+            error: () => this.dashboardData.set(null)
+        });
+    }
 }
