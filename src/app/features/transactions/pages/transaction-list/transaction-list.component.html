@@ -5,7 +5,33 @@
     <h2 class="page-title">Transaction Management</h2>
     <p-button label="New Transaction" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
   </div>
-  <p-table [value]="transactions()" styleClass="p-datatable-striped" [scrollable]="true">
+
+  <div class="filter-bar" [formGroup]="filterForm">
+    <div class="filter-field">
+      <label>From</label>
+      <p-datepicker formControlName="startDate" dateFormat="mm/dd/yy" [showIcon]="true" [maxDate]="today"
+        (onSelect)="onStartDateSelect()" appendTo="body" />
+    </div>
+    <div class="filter-field">
+      <label>To</label>
+      <p-datepicker formControlName="endDate" dateFormat="mm/dd/yy" [showIcon]="true"
+        [minDate]="filterForm.get('startDate')?.value" [maxDate]="today" appendTo="body" />
+    </div>
+    <div class="filter-field">
+      <label>Category</label>
+      <p-select formControlName="category" [options]="filterCategories()" optionLabel="name" placeholder="All"
+        [showClear]="true" appendTo="body" />
+    </div>
+    <div class="filter-field">
+      <label>Type</label>
+      <p-select formControlName="type" [options]="typeOptions" placeholder="All" [showClear]="true" appendTo="body" />
+    </div>
+    <div class="filter-actions">
+      <p-button label="Apply" icon="pi pi-filter" (onClick)="applyFilter()" />
+      <p-button label="Clear" icon="pi pi-times" severity="secondary" [text]="true" (onClick)="clearFilter()" />
+    </div>
+  </div>
+  <p-table [value]="filteredTransactions()" styleClass="p-datatable-striped" [scrollable]="true">
     <ng-template pTemplate="header">
       <tr>
         <th>Date</th>

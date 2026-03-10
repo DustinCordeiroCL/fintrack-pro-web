@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { of, throwError, Subject } from 'rxjs';
 import { TransactionType } from '../../../../models/enums/transaction-type.enum';
 import { ConfirmationService } from 'primeng/api';
+import { Transaction } from '../../../../models/interfaces/transaction.interface';
 
 
 describe('TransactionListComponent', () => {
@@ -226,5 +227,33 @@ describe('TransactionListComponent', () => {
     component.loadTransactions();
 
     expect(component.isLoading()).toBe(false);
+  });
+
+  it('should filter transactions by type when type filter is set', () => {
+    const today = new Date().toISOString();
+    const income: Transaction = { id: 1, description: 'A', amount: 100, date: today, type: TransactionType.INCOME, category: { id: 1, name: 'X', color: '#000' } as any };
+    const expense: Transaction = { id: 2, description: 'B', amount: 200, date: today, type: TransactionType.EXPENSE, category: { id: 1, name: 'X', color: '#000' } as any };
+
+    component.allTransactions.set([income, expense]);
+    component.filterForm.patchValue({ type: 'INCOME', startDate: null, endDate: null, category: null });
+    component.applyFilter();
+
+    expect(component.filteredTransactions().length).toBe(1);
+    expect(component.filteredTransactions()[0].type).toBe(TransactionType.INCOME);
+  });
+
+  it('should restore current month default when clearFilter is called', () => {
+    component.filterForm.patchValue({
+      startDate: new Date(2025, 0, 1),
+      endDate: new Date(2025, 0, 31),
+      type: 'EXPENSE',
+      category: { id: 1, name: 'Food', color: '#000' }
+    });
+
+    component.clearFilter();
+
+    expect(component.filterForm.get('type')?.value).toBeNull();
+    expect(component.filterForm.get('category')?.value).toBeNull();
+    expect(component.filterForm.get('startDate')?.value.getMonth()).toBe(new Date().getMonth());
   });
 });
