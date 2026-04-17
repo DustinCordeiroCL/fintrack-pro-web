@@ -1,0 +1,124 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 1.75rem;
+  background-color: #1e293b;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Left: breadcrumb ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+
+  i {
+    font-size: 0.85rem;
+    color: #0d9488;
+  }
+
+  .separator {
+    opacity: 0.4;
+  }
+
+  .current {
+    color: #f1f5f9;
+    font-weight: 600;
+  }
+}
+
+/* ── Right: actions ── */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.08);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  i {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: rgba(13, 148, 136, 0.15);
+    color: #0d9488;
+  }
+}
+
+.logout-btn {
+  background: transparent;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* ── User menu ── */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+
+  .user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+
+  .user-role {
+    font-size: 0.72rem;
+    color: #64748b;
+  }
+}

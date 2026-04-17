@@ -1,8 +1,8 @@
 .card-container {
-  background: var(--p-content-background);
-  border: 1px solid var(--p-content-border-color);
-  border-radius: var(--p-border-radius-xl);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  background: #1e293b;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
   padding: 1.5rem;
 }
 
@@ -13,22 +13,69 @@
   margin-bottom: 1.5rem;
 
   .page-title {
-    color: var(--surface-900);
-    font-weight: bold;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f1f5f9;
     margin: 0;
   }
 }
 
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  margin-bottom: 0.5rem;
+
+  .filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #64748b;
+    }
+  }
+
+  .filter-actions {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding-bottom: 2px;
+  }
+}
+
+.type-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &.income {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+  }
+
+  &.expense {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+  }
+}
+
 .category-indicator {
-  font-weight: bold;
+  font-weight: 600;
+  color: #cbd5e1;
 }
 
 .amount-cell {
-  font-weight: bold;
-}
-
-::ng-deep .transaction-dialog {
-  width: 450px;
+  font-weight: 700;
+  color: #f1f5f9;
 }
 
 .transaction-form {
@@ -43,8 +90,9 @@
     gap: 0.5rem;
 
     label {
-      font-weight: bold;
-      color: var(--surface-700);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #94a3b8;
     }
 
     input,
@@ -57,80 +105,33 @@
   }
 }
 
-.type-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  text-transform: uppercase;
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  gap: 0.5rem;
 
-  &.income {
-    background-color: #d4edda;
-    color: #155724;
+  .empty-state-icon {
+    font-size: 2.5rem;
+    color: #334155;
+    margin-bottom: 0.5rem;
   }
 
-  &.expense {
-    background-color: #f8d7da;
-    color: #721c24;
+  .empty-state-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #94a3b8;
   }
 
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-    gap: 0.5rem;
-
-    .empty-state-icon {
-      font-size: 2.5rem;
-      color: var(--p-content-border-color);
-      margin-bottom: 0.5rem;
-    }
-
-    .empty-state-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--surface-700);
-    }
-
-    .empty-state-subtitle {
-      font-size: 0.875rem;
-      color: var(--surface-500);
-    }
-  }
-
-  ::ng-deep .skeleton-row {
-    height: 2rem !important;
-    border-radius: 4px !important;
+  .empty-state-subtitle {
+    font-size: 0.875rem;
+    color: #475569;
   }
 }
 
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 1rem;
-  padding: 1rem 0 1.25rem;
-  border-bottom: 1px solid var(--p-content-border-color);
-  margin-bottom: 0.5rem;
-
-  .filter-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-
-    label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--p-text-muted-color);
-    }
-  }
-
-  .filter-actions {
-    display: flex;
-    align-items: flex-end;
-    gap: 0.5rem;
-    padding-bottom: 2px;
-  }
+::ng-deep .skeleton-row {
+  height: 2rem !important;
+  border-radius: 4px !important;
 }

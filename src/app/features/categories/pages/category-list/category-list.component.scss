@@ -1,20 +1,21 @@
 .card-container {
-    background: var(--p-content-background);
-    border: 1px solid var(--p-content-border-color);
-    border-radius: var(--p-border-radius-xl);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    background: #1e293b;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 12px;
     padding: 1.5rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .table-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
 
     .page-title {
-        color: var(--surface-900);
-        font-weight: bold;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f1f5f9;
         margin: 0;
     }
 }
@@ -26,22 +27,17 @@
 }
 
 .color-indicator {
-    width: 1rem;
-    height: 1rem;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     display: inline-block;
-    border: 1px solid var(--p-content-border-color);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    flex-shrink: 0;
 }
 
 .action-buttons {
     display: flex;
-    gap: 0.5rem;
-}
-
-.empty-message {
-    text-align: center;
-    padding: 1.5rem;
-    color: var(--surface-500);
+    gap: 0.25rem;
 }
 
 .category-form {
@@ -56,8 +52,9 @@
         gap: 0.5rem;
 
         label {
-            font-weight: bold;
-            color: var(--surface-700);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #94a3b8;
         }
     }
 }
@@ -76,23 +73,23 @@
 
     .empty-state-icon {
         font-size: 2.5rem;
-        color: var(--p-content-border-color);
+        color: #334155;
         margin-bottom: 0.5rem;
     }
 
     .empty-state-title {
         font-size: 1rem;
         font-weight: 600;
-        color: var(--surface-700);
+        color: #94a3b8;
     }
 
     .empty-state-subtitle {
         font-size: 0.875rem;
-        color: var(--surface-500);
+        color: #475569;
     }
+}
 
-    ::ng-deep .skeleton-row {
-        height: 2rem !important;
-        border-radius: 4px !important;
-    }
+::ng-deep .skeleton-row {
+    height: 2rem !important;
+    border-radius: 4px !important;
 }

@@ -1,0 +1,32 @@
+<header class="topbar">
+
+  <div class="topbar-left">
+    <div class="breadcrumb">
+      <i class="pi pi-home"></i>
+      <span class="separator">/</span>
+      <span class="current">{{ currentPage() }}</span>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+
+    <button class="icon-btn" title="Notifications">
+      <i class="pi pi-bell"></i>
+    </button>
+
+    <div class="divider"></div>
+
+    <div class="user-menu">
+      <div class="avatar">{{ userInitials }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ displayName }}</span>
+        <span class="user-role">Personal Account</span>
+      </div>
+      <button class="icon-btn logout-btn" (click)="logout()" title="Sign out">
+        <i class="pi pi-sign-out"></i>
+      </button>
+    </div>
+
+  </div>
+
+</header>

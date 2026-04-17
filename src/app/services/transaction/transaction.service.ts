@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { Transaction } from '../../models/interfaces/transaction.interface';
 import { DashboardResponse } from '../../models/interfaces/dashboard-response.interface';
+import { Page } from '../../models/interfaces/auth.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class TransactionService {
   readonly #API_URL = `${environment.apiUrl}/transactions`;
 
   public listAll(): Observable<Transaction[]> {
-    return this.#http.get<Transaction[]>(this.#API_URL).pipe(
+    return this.#http.get<Page<Transaction>>(this.#API_URL).pipe(
+      map(page => page.content),
       catchError((error) => {
         console.error('[TransactionService] listAll failed:', error);
         return throwError(() => new Error('Failed to load transaction history.'));

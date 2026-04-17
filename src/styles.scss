@@ -11,5 +11,248 @@
 body {
     font-family: var(--p-font-family, system-ui, sans-serif);
     line-height: 1.5;
-    background-color: var(--p-surface-50);
+    background-color: #0f172a;
+    color: #f1f5f9;
+}
+
+/* ── Page header shared across pages ── */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+
+    .page-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin: 0;
+    }
+
+    .page-subtitle {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 0.2rem;
+    }
+}
+
+/* ── Dark card shared pattern ── */
+.content-card {
+    background: #1e293b;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ── PrimeNG global dark overrides ── */
+.p-datatable {
+    background: transparent !important;
+
+    .p-datatable-header {
+        background: transparent !important;
+        border-color: rgba(148, 163, 184, 0.1) !important;
+        color: #f1f5f9 !important;
+    }
+
+    .p-datatable-thead > tr > th {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border-color: rgba(148, 163, 184, 0.1) !important;
+        color: #94a3b8 !important;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .p-datatable-tbody > tr {
+        background: transparent !important;
+        color: #cbd5e1 !important;
+        border-color: rgba(148, 163, 184, 0.06) !important;
+        transition: background 0.15s;
+
+        &:hover {
+            background: rgba(13, 148, 136, 0.05) !important;
+        }
+
+        > td {
+            border-color: rgba(148, 163, 184, 0.06) !important;
+        }
+    }
+
+    .p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+        background: rgba(148, 163, 184, 0.03) !important;
+    }
+}
+
+.p-dialog {
+    background: #1e293b !important;
+    border: 1px solid rgba(148, 163, 184, 0.12) !important;
+    border-radius: 12px !important;
+
+    .p-dialog-header {
+        background: #1e293b !important;
+        color: #f1f5f9 !important;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1) !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+    .p-dialog-content {
+        background: #1e293b !important;
+        color: #cbd5e1 !important;
+    }
+
+    .p-dialog-footer {
+        background: #1e293b !important;
+        border-top: 1px solid rgba(148, 163, 184, 0.1) !important;
+        border-radius: 0 0 12px 12px !important;
+    }
+}
+
+.p-inputtext,
+.p-select,
+.p-inputnumber-input {
+    background: #0f172a !important;
+    border-color: rgba(148, 163, 184, 0.2) !important;
+    color: #f1f5f9 !important;
+    border-radius: 8px !important;
+
+    &::placeholder {
+        color: #475569 !important;
+    }
+
+    &:focus {
+        border-color: #0d9488 !important;
+        box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2) !important;
+    }
+}
+
+.p-select-panel,
+.p-datepicker-panel {
+    background: #1e293b !important;
+    border: 1px solid rgba(148, 163, 184, 0.15) !important;
+    border-radius: 10px !important;
+
+    .p-select-option {
+        color: #cbd5e1 !important;
+
+        &:hover,
+        &.p-select-option-selected {
+            background: rgba(13, 148, 136, 0.12) !important;
+            color: #0d9488 !important;
+        }
+    }
+}
+
+/* ── Datepicker trigger button ── */
+.p-datepicker-dropdown {
+    background: rgba(148, 163, 184, 0.08) !important;
+    border-color: rgba(148, 163, 184, 0.2) !important;
+    color: #64748b !important;
+
+    &:hover {
+        background: rgba(13, 148, 136, 0.12) !important;
+        border-color: #0d9488 !important;
+        color: #0d9488 !important;
+    }
+}
+
+/* ── Datepicker panel ── */
+.p-datepicker-panel {
+    background: #1e293b !important;
+    border: 1px solid rgba(148, 163, 184, 0.15) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+
+    .p-datepicker-header {
+        background: #1e293b !important;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1) !important;
+        padding: 0.75rem !important;
+    }
+
+    .p-datepicker-prev-button,
+    .p-datepicker-next-button {
+        background: transparent !important;
+        border: none !important;
+        color: #94a3b8 !important;
+        border-radius: 6px !important;
+
+        &:hover {
+            background: rgba(13, 148, 136, 0.12) !important;
+            color: #0d9488 !important;
+        }
+    }
+
+    .p-datepicker-select-month,
+    .p-datepicker-select-year {
+        background: transparent !important;
+        border: none !important;
+        color: #f1f5f9 !important;
+        font-weight: 600 !important;
+
+        &:hover {
+            color: #0d9488 !important;
+        }
+    }
+
+    .p-datepicker-day-view {
+        background: #1e293b !important;
+        padding: 0.5rem !important;
+    }
+
+    .p-datepicker-weekday-cell,
+    .p-datepicker-weekday {
+        color: #475569 !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+    }
+
+    .p-datepicker-day-cell .p-datepicker-day {
+        color: #cbd5e1 !important;
+        border-radius: 6px !important;
+        transition: background 0.15s !important;
+
+        &:hover {
+            background: rgba(13, 148, 136, 0.12) !important;
+            color: #0d9488 !important;
+        }
+    }
+
+    .p-datepicker-day-cell.p-datepicker-day-selected .p-datepicker-day {
+        background: #0d9488 !important;
+        color: #fff !important;
+    }
+
+    .p-datepicker-day-cell.p-datepicker-today .p-datepicker-day {
+        border: 1px solid rgba(13, 148, 136, 0.5) !important;
+        color: #0d9488 !important;
+        background: transparent !important;
+    }
+
+    .p-datepicker-day-cell.p-datepicker-other-month .p-datepicker-day {
+        color: #334155 !important;
+    }
+}
+
+.p-button:not(.p-button-text):not(.p-button-outlined) {
+    background: #0d9488 !important;
+    border-color: #0d9488 !important;
+
+    &:hover:not(:disabled) {
+        background: #0f766e !important;
+        border-color: #0f766e !important;
+    }
+}
+
+.p-toast .p-toast-message {
+    background: #1e293b !important;
+    border-color: rgba(148, 163, 184, 0.12) !important;
+    color: #f1f5f9 !important;
+}
+
+.p-confirmdialog {
+    background: #1e293b !important;
 }

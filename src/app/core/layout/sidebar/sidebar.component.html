@@ -7,16 +7,16 @@
     </div>
 
     <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
         <ul>
             @for (item of navItems; track item.route) {
             <li>
-                <a
-                [routerLink]="item.route"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="linkActiveOptions"
-                    class="nav-item">
-                    <i [class]="item.icon"></i>
-                    <span>{{ item.label }}</span>
+                <a [routerLink]="item.route"
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{ exact: false }"
+                   class="nav-item">
+                    <span class="nav-icon"><i [class]="item.icon"></i></span>
+                    <span class="nav-label">{{ item.label }}</span>
                 </a>
             </li>
             }
@@ -24,7 +24,8 @@
     </nav>
 
     <div class="sidebar-footer">
-        <span class="version-label">v1.0.0</span>
+        <div class="footer-divider"></div>
+        <span class="version-label">v1.0.0 · FinTrack Pro</span>
     </div>
 
 </aside>
