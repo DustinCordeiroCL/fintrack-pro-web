@@ -1,0 +1,57 @@
+<div class="login-wrapper">
+
+  <div class="login-card">
+
+    <div class="login-brand">
+      <i class="pi pi-wallet brand-icon"></i>
+      <span class="brand-name">FinTrack</span>
+      <span class="brand-accent">Pro</span>
+    </div>
+
+    <p class="login-subtitle">Sign in to your account</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          pInputText
+          type="email"
+          formControlName="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <p-password
+          inputId="password"
+          formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          placeholder="••••••••"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        />
+      </div>
+
+      @if (errorMessage()) {
+        <p-message severity="error">{{ errorMessage() }}</p-message>
+      }
+
+      <p-button
+        type="submit"
+        label="Sign In"
+        class="w-full"
+        [loading]="loading()"
+        [disabled]="form.invalid"
+      />
+
+    </form>
+
+  </div>
+
+</div>
