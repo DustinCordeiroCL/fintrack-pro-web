@@ -18,8 +18,8 @@ export class SidebarComponent {
     readonly linkActiveOptions = { exact: true };
     
     readonly navItems: NavItem[] = [
-        { label: 'Dashboard', icon: 'pi pi-chart-bar', route: '/dashboard' },
-        { label: 'Transactions', icon: 'pi pi-arrows-h', route: '/transactions' },
-        { label: 'Categories', icon: 'pi pi-tag', route: '/categories' }
+        { label: 'Inicio', icon: 'pi pi-chart-bar', route: '/dashboard' },
+        { label: 'Transacciones', icon: 'pi pi-arrows-h', route: '/transactions' },
+        { label: 'Categorías', icon: 'pi pi-tag', route: '/categories' }
     ];
 }

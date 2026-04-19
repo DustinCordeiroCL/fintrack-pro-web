@@ -55,7 +55,6 @@
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
     }
 
-    /* Colored accent bar on top */
     &::before {
         content: '';
         position: absolute;
@@ -66,8 +65,8 @@
         border-radius: 12px 12px 0 0;
     }
 
-    &.income::before  { background: linear-gradient(90deg, #10b981, #34d399); }
-    &.expense::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+    &.income::before   { background: linear-gradient(90deg, #10b981, #34d399); }
+    &.expense::before  { background: linear-gradient(90deg, #ef4444, #f87171); }
     &.positive::before { background: linear-gradient(90deg, #0d9488, #2dd4bf); }
     &.negative::before { background: linear-gradient(90deg, #ef4444, #f87171); }
 
@@ -104,28 +103,23 @@
         line-height: 1;
     }
 
-    &.income .card-icon {
-        background: rgba(16, 185, 129, 0.12);
-        color: #10b981;
-    }
+    &.income .card-icon   { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+    &.expense .card-icon  { background: rgba(239, 68, 68, 0.12);  color: #ef4444; }
+    &.positive .card-icon { background: rgba(13, 148, 136, 0.12); color: #0d9488; }
+    &.negative .card-icon { background: rgba(239, 68, 68, 0.12);  color: #ef4444; }
+}
 
-    &.expense .card-icon {
-        background: rgba(239, 68, 68, 0.12);
-        color: #ef4444;
-    }
+/* ── Charts ── */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.25rem;
 
-    &.positive .card-icon {
-        background: rgba(13, 148, 136, 0.12);
-        color: #0d9488;
-    }
-
-    &.negative .card-icon {
-        background: rgba(239, 68, 68, 0.12);
-        color: #ef4444;
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
     }
 }
 
-/* ── Chart ── */
 .chart-card {
     background: #1e293b;
     border: 1px solid rgba(148, 163, 184, 0.1);
@@ -153,6 +147,13 @@
     }
 
     .chart-body {
-        height: 340px;
+        height: 300px;
+    }
+
+    .donut-body {
+        height: 280px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

@@ -38,7 +38,7 @@ export class LoginComponent {
     this.#authService.login({ email: email!, password: password! }).subscribe({
       next: () => this.#router.navigate(['/dashboard']),
       error: () => {
-        this.errorMessage.set('Invalid credentials. Please try again.');
+        this.errorMessage.set('Credenciales incorrectas. Inténtalo nuevamente.');
         this.loading.set(false);
       }
     });

@@ -2,15 +2,15 @@
   <p-toast />
   <p-confirmDialog />
   <div class="table-header">
-    <h2 class="page-title">Category Management</h2>
-    <p-button label="New Category" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
+    <h2 class="page-title">Gestión de Categorías</h2>
+    <p-button label="Nueva Categoría" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
   </div>
-  <p-table [value]="categories()" styleClass="p-datatable-striped" sortField="name" [sortOrder]="1"> <ng-template
-      pTemplate="header">
+  <p-table [value]="categories()" styleClass="p-datatable-striped" sortField="name" [sortOrder]="1">
+    <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
+        <th pSortableColumn="name">Nombre <p-sortIcon field="name" /></th>
         <th>Color</th>
-        <th>Actions</th>
+        <th>Acciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-category>
@@ -46,46 +46,46 @@
         <td colspan="3">
           <div class="empty-state">
             <i class="pi pi-tag empty-state-icon"></i>
-            <span class="empty-state-title">No categories found</span>
-            <span class="empty-state-subtitle">Click "New Category" to create your first category.</span>
+            <span class="empty-state-title">No se encontraron categorías</span>
+            <span class="empty-state-subtitle">Haz clic en "Nueva Categoría" para crear tu primera categoría.</span>
           </div>
         </td>
       </tr>
       }
     </ng-template>
   </p-table>
-  <p-dialog [header]="editingId() ? 'Edit Category' : 'Create Category'" [(visible)]="displayDialog" [modal]="true">
+  <p-dialog [header]="editingId() ? 'Editar Categoría' : 'Crear Categoría'" [(visible)]="displayDialog" [modal]="true">
     <form [formGroup]="categoryForm" class="category-form">
       <div class="form-field">
-        <label for="name">Name</label>
+        <label for="name">Nombre</label>
         <input pInputText id="name" formControlName="name" autocomplete="off"
           [class.ng-invalid]="categoryForm.get('name')?.invalid" [class.ng-dirty]="categoryForm.get('name')?.dirty" />
         @if (categoryForm.get('name')?.invalid && categoryForm.get('name')?.dirty) {
-        <p-message severity="error" text="Name is required and must be at least 3 characters." />
+        <p-message severity="error" text="El nombre es obligatorio y debe tener al menos 3 caracteres." />
         }
       </div>
       <div class="form-field">
-        <label for="color">Theme Color</label>
+        <label for="color">Color de etiqueta</label>
         <p-colorPicker formControlName="color" appendTo="body" format="hex"></p-colorPicker>
       </div>
       <div class="form-field">
-        <label for="description">Description</label>
+        <label for="description">Descripción</label>
         <input pInputText id="description" formControlName="description" autocomplete="off" />
       </div>
       <div class="form-field">
-        <label for="categoryType">Category Type</label>
+        <label for="categoryType">Tipo de categoría</label>
         <p-select id="categoryType" [options]="categoryTypeOptions" formControlName="categoryType" optionLabel="label"
-          optionValue="value" placeholder="Select Type" appendTo="body" />
+          optionValue="value" placeholder="Selecciona un tipo" appendTo="body" />
       </div>
       <div class="form-field">
-        <label for="spendingLimit">Spending Limit</label>
+        <label for="spendingLimit">Límite de gasto</label>
         <p-inputNumber id="spendingLimit" formControlName="spendingLimit" mode="currency" currency="CLP" locale="es-CL"
           placeholder="$ 0" />
       </div>
     </form>
     <ng-template pTemplate="footer">
-      <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
-      <p-button label="Save Category" icon="pi pi-check" (onClick)="saveCategory()" />
+      <p-button label="Cancelar" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
+      <p-button label="Guardar categoría" icon="pi pi-check" (onClick)="saveCategory()" />
     </ng-template>
   </p-dialog>
 </div>

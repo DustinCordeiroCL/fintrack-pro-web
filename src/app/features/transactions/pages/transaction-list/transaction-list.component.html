@@ -2,44 +2,47 @@
   <p-toast />
   <p-confirmDialog />
   <div class="table-header">
-    <h2 class="page-title">Transaction Management</h2>
-    <p-button label="New Transaction" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
+    <h2 class="page-title">Gestión de Transacciones</h2>
+    <p-button label="Nueva Transacción" icon="pi pi-plus" [disabled]="isLoading()" (onClick)="showDialog()" />
   </div>
 
   <div class="filter-bar" [formGroup]="filterForm">
     <div class="filter-field">
-      <label>From</label>
-      <p-datepicker formControlName="startDate" dateFormat="mm/dd/yy" [showIcon]="true" [maxDate]="today"
+      <label>Desde</label>
+      <p-datepicker formControlName="startDate" dateFormat="dd/mm/yy" [showIcon]="true" [maxDate]="today"
         (onSelect)="onStartDateSelect()" appendTo="body" />
     </div>
     <div class="filter-field">
-      <label>To</label>
-      <p-datepicker formControlName="endDate" dateFormat="mm/dd/yy" [showIcon]="true"
+      <label>Hasta</label>
+      <p-datepicker formControlName="endDate" dateFormat="dd/mm/yy" [showIcon]="true"
         [minDate]="filterForm.get('startDate')?.value" [maxDate]="today" appendTo="body" />
     </div>
     <div class="filter-field">
-      <label>Category</label>
-      <p-select formControlName="category" [options]="filterCategories()" optionLabel="name" placeholder="All"
+      <label>Categoría</label>
+      <p-select formControlName="category" [options]="filterCategories()" optionLabel="name" placeholder="Todas"
         [showClear]="true" appendTo="body" />
     </div>
     <div class="filter-field">
-      <label>Type</label>
-      <p-select formControlName="type" [options]="typeOptions" placeholder="All" [showClear]="true" appendTo="body" />
+      <label>Tipo</label>
+      <p-select formControlName="type" [options]="typeOptions" optionLabel="label" optionValue="value"
+        placeholder="Todos" [showClear]="true" appendTo="body" />
     </div>
     <div class="filter-actions">
-      <p-button label="Apply" icon="pi pi-filter" (onClick)="applyFilter()" />
-      <p-button label="Clear" icon="pi pi-times" severity="secondary" [text]="true" (onClick)="clearFilter()" />
+      <p-button label="Aplicar" icon="pi pi-filter" (onClick)="applyFilter()" />
+      <p-button label="Limpiar" icon="pi pi-times" severity="secondary" [text]="true" (onClick)="clearFilter()" />
     </div>
   </div>
+
   <p-table [value]="filteredTransactions()" styleClass="p-datatable-striped" [scrollable]="true" sortField="date"
-    [sortOrder]="-1"> <ng-template pTemplate="header">
+    [sortOrder]="-1">
+    <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="date">Date <p-sortIcon field="date" /></th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Actions</th>
+        <th pSortableColumn="date">Fecha <p-sortIcon field="date" /></th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Tipo</th>
+        <th>Monto</th>
+        <th>Acciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-transaction>
@@ -56,16 +59,16 @@
       }
       } @else {
       <tr>
-        <td>{{ transaction.date | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
         <td>{{ transaction.description }}</td>
         <td>
-          <span [style.color]="transaction.category.color" class="category-indicator">
+          <span [style.color]="transaction.category.color || '#64748b'" class="category-indicator">
             ● {{ transaction.category.name }}
           </span>
         </td>
         <td>
           <span [class]="'type-badge ' + transaction.type.toLowerCase()">
-            {{ transaction.type }}
+            {{ typeLabels[transaction.type] || transaction.type }}
           </span>
         </td>
         <td class="amount-cell">
@@ -87,48 +90,50 @@
         <td colspan="6">
           <div class="empty-state">
             <i class="pi pi-arrows-h empty-state-icon"></i>
-            <span class="empty-state-title">No transactions found</span>
-            <span class="empty-state-subtitle">Click "New Transaction" to register your first transaction.</span>
+            <span class="empty-state-title">No se encontraron transacciones</span>
+            <span class="empty-state-subtitle">Haz clic en "Nueva Transacción" para registrar tu primera transacción.</span>
           </div>
         </td>
       </tr>
       }
     </ng-template>
   </p-table>
-  <p-dialog [header]="editingId() ? 'Edit Transaction' : 'New Transaction'" [(visible)]="displayDialog" [modal]="true"
+
+  <p-dialog [header]="editingId() ? 'Editar Transacción' : 'Nueva Transacción'" [(visible)]="displayDialog" [modal]="true"
     styleClass="transaction-dialog">
     <form [formGroup]="transactionForm" class="transaction-form">
       <div class="form-field">
-        <label for="description">Description</label>
+        <label for="description">Descripción</label>
         <input pInputText id="description" formControlName="description"
           [class.ng-invalid]="transactionForm.get('description')?.invalid"
           [class.ng-dirty]="transactionForm.get('description')?.dirty" />
         @if (transactionForm.get('description')?.invalid && transactionForm.get('description')?.dirty) {
-        <p-message severity="error" text="Description is required and must be at least 5 characters." />
+        <p-message severity="error" text="La descripción es obligatoria y debe tener al menos 5 caracteres." />
         }
       </div>
       <div class="form-field">
-        <label for="amount">Amount</label>
+        <label for="amount">Monto</label>
         <p-inputNumber id="amount" formControlName="amount" mode="currency" currency="CLP" locale="es-CL"
           placeholder="$ 0" />
       </div>
       <div class="form-field">
-        <label for="date">Date</label>
-        <p-datepicker id="date" formControlName="date" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body" />
+        <label for="date">Fecha</label>
+        <p-datepicker id="date" formControlName="date" dateFormat="dd/mm/yy" [showIcon]="true" appendTo="body" />
       </div>
       <div class="form-field">
-        <label for="category">Category</label>
-        <p-select [options]="categories()" formControlName="category" optionLabel="name" placeholder="Select a Category"
-          appendTo="body" />
+        <label for="category">Categoría</label>
+        <p-select [options]="categories()" formControlName="category" optionLabel="name"
+          placeholder="Selecciona una categoría" appendTo="body" />
       </div>
       <div class="form-field">
-        <label for="type">Type</label>
-        <p-select [options]="['INCOME', 'EXPENSE']" formControlName="type" placeholder="Select Type" appendTo="body" />
+        <label for="type">Tipo</label>
+        <p-select [options]="typeOptions" optionLabel="label" optionValue="value" formControlName="type"
+          placeholder="Selecciona un tipo" appendTo="body" />
       </div>
     </form>
     <ng-template pTemplate="footer">
-      <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
-      <p-button label="Save" icon="pi pi-check" (onClick)="saveTransaction()" />
+      <p-button label="Cancelar" [text]="true" severity="secondary" (onClick)="displayDialog.set(false)" />
+      <p-button label="Guardar" icon="pi pi-check" (onClick)="saveTransaction()" />
     </ng-template>
   </p-dialog>
 </div>

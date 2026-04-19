@@ -54,10 +54,10 @@ export class CategoryListComponent implements OnInit {
   readonly #confirmationService = inject(ConfirmationService);
   readonly CategoryType = CategoryType;
 
-  readonly categoryTypeOptions = Object.entries(CategoryType).map(([key, value]) => ({
-    label: key.charAt(0) + key.slice(1).toLowerCase(),
-    value: value
-  }));
+  readonly categoryTypeOptions = [
+    { label: 'Esencial', value: CategoryType.ESSENTIAL },
+    { label: 'Discrecional', value: CategoryType.DISCRETIONARY }
+  ];
 
   public categoryForm!: FormGroup;
   public categories = signal<Category[]>([]);
@@ -89,7 +89,7 @@ export class CategoryListComponent implements OnInit {
       },
       error: () => {
         this.isLoading.set(false);
-        this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load failed' });
+        this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las categorías.' });
       }
     });
   }
@@ -109,15 +109,15 @@ export class CategoryListComponent implements OnInit {
           this.loadCategories();
           this.#messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: isEditing ? 'Category updated.' : 'Category created.'
+            summary: 'Éxito',
+            detail: isEditing ? 'Categoría actualizada.' : 'Categoría creada.'
           });
         },
         error: () => {
           this.#messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Save failed'
+            detail: 'Error al guardar.'
           });
         }
       });
@@ -138,8 +138,8 @@ export class CategoryListComponent implements OnInit {
 
   public deleteCategory(id: number): void {
     this.#confirmationService.confirm({
-      message: 'Are you sure you want to delete this category?',
-      header: 'Confirm Deletion',
+      message: '¿Estás seguro de que deseas eliminar esta categoría?',
+      header: 'Confirmar eliminación',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.#categoryService.delete(id).subscribe({
@@ -147,15 +147,15 @@ export class CategoryListComponent implements OnInit {
             this.loadCategories();
             this.#messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Category deleted.'
+              summary: 'Éxito',
+              detail: 'Categoría eliminada.'
             });
           },
           error: () => {
             this.#messageService.add({
               severity: 'error',
-              summary: 'Cannot Delete',
-              detail: 'This category has linked transactions. Remove them first.'
+              summary: 'No se puede eliminar',
+              detail: 'Esta categoría tiene transacciones asociadas. Elimínalas primero.'
             });
           }
         });

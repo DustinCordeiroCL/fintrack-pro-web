@@ -76,7 +76,15 @@ export class TransactionListComponent implements OnInit {
   public editingId = signal<number | null>(null);
   public isLoading = signal<boolean>(true);
   public today = new Date();
-  public typeOptions = ['INCOME', 'EXPENSE'];
+  public typeOptions = [
+    { label: 'Ingreso', value: 'INCOME' },
+    { label: 'Gasto', value: 'EXPENSE' }
+  ];
+
+  public typeLabels: Record<string, string> = {
+    INCOME: 'Ingreso',
+    EXPENSE: 'Gasto'
+  };
 
   ngOnInit(): void {
     this.initForm();
@@ -115,7 +123,7 @@ export class TransactionListComponent implements OnInit {
       },
       error: () => {
         this.isLoading.set(false);
-        this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load transactions failed' });
+        this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las transacciones.' });
       }
     });
   }
@@ -127,7 +135,7 @@ export class TransactionListComponent implements OnInit {
         this.filterCategories.set(response);
       },
       error: () => {
-        this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Load categories failed' });
+        this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar las categorías.' });
       }
     });
   }
@@ -192,15 +200,15 @@ export class TransactionListComponent implements OnInit {
           this.loadTransactions();
           this.#messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: isEditing ? 'Transaction updated.' : 'Transaction successfully synchronized with the database.'
+            summary: 'Éxito',
+            detail: isEditing ? 'Transacción actualizada.' : 'Transacción guardada exitosamente.'
           });
         },
         error: (e) => {
           this.#messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: e.message || 'Check backend connection.'
+            detail: e.message || 'Verifica la conexión con el servidor.'
           });
         }
       });
@@ -227,17 +235,17 @@ export class TransactionListComponent implements OnInit {
 
   public deleteTransaction(id: number): void {
     this.#confirmationService.confirm({
-      message: 'Are you sure you want to delete this transaction?',
-      header: 'Confirm Deletion',
+      message: '¿Estás seguro de que deseas eliminar esta transacción?',
+      header: 'Confirmar eliminación',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.#transactionService.delete(id).subscribe({
           next: () => {
             this.loadTransactions();
-            this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Transaction deleted.' });
+            this.#messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Transacción eliminada.' });
           },
           error: () => {
-            this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Delete failed.' });
+            this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar.' });
           }
         });
       }

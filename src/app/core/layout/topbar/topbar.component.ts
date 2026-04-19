@@ -6,9 +6,9 @@ import { filter, map, startWith } from 'rxjs';
 import { AuthService } from '../../../services/auth/auth.service';
 
 const PAGE_LABELS: Record<string, string> = {
-  dashboard: 'Dashboard',
-  transactions: 'Transactions',
-  categories: 'Categories',
+  dashboard: 'Inicio',
+  transactions: 'Transacciones',
+  categories: 'Categorías',
 };
 
 @Component({
