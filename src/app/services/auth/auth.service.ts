@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest } from '../../models/interfaces/auth.interface';
+import { AuthResponse, LoginRequest, RegisterRequest } from '../../models/interfaces/auth.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,6 +13,15 @@ export class AuthService {
 
   private readonly TOKEN_KEY = 'fintrack_token';
   private readonly USER_KEY = 'fintrack_user';
+
+  public register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.#http.post<AuthResponse>(`${this.#API_URL}/register`, data).pipe(
+      tap(response => {
+        localStorage.setItem(this.TOKEN_KEY, response.accessToken);
+        localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
+      })
+    );
+  }
 
   public login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.#http.post<AuthResponse>(`${this.#API_URL}/login`, credentials).pipe(
