@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.fintrackpro.com/api/v1'
+  apiUrl: 'https://fintrack-pro.dustincordeiro.dev/api/v1'
 };
