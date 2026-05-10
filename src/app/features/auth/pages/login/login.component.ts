@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -16,7 +16,7 @@ function passwordsMatch(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, ButtonModule, MessageModule],
+  imports: [ReactiveFormsModule, RouterLink, InputTextModule, PasswordModule, ButtonModule, MessageModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -24,6 +24,7 @@ export class LoginComponent {
   readonly #fb = inject(FormBuilder);
   readonly #authService = inject(AuthService);
   readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
 
   mode = signal<'login' | 'register'>('login');
   loading = signal(false);
@@ -41,6 +42,13 @@ export class LoginComponent {
     confirmPassword: ['', Validators.required]
   }, { validators: passwordsMatch });
 
+  constructor() {
+    const mode = this.#route.snapshot.queryParamMap.get('mode');
+    if (mode === 'register') {
+      this.mode.set('register');
+    }
+  }
+
   switchMode(mode: 'login' | 'register'): void {
     this.mode.set(mode);
     this.errorMessage.set(null);
@@ -56,7 +64,7 @@ export class LoginComponent {
     this.#authService.login({ email: email!, password: password! }).subscribe({
       next: () => this.#router.navigate(['/dashboard']),
       error: () => {
-        this.errorMessage.set('Credenciales incorrectas. Inténtalo nuevamente.');
+        this.errorMessage.set('Credenciais inválidas. Tente novamente.');
         this.loading.set(false);
       }
     });
@@ -70,7 +78,7 @@ export class LoginComponent {
     this.#authService.register({ name: name!, email: email!, password: password! }).subscribe({
       next: () => this.#router.navigate(['/dashboard']),
       error: () => {
-        this.errorMessage.set('No se pudo crear la cuenta. Verifica los datos e inténtalo nuevamente.');
+        this.errorMessage.set('Não foi possível criar a conta. Verifique os dados e tente novamente.');
         this.loading.set(false);
       }
     });

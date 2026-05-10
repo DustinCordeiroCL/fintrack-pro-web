@@ -1,0 +1,189 @@
+<div class="home-page">
+  <header class="hero-header">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark"><i class="pi pi-wallet"></i></span>
+      <span class="brand-copy">
+        <strong>FinTrack</strong>
+        <span>Pro</span>
+      </span>
+    </a>
+
+    <nav class="header-nav">
+      <a href="#visao-geral">Visão geral</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#acesso">Acessar</a>
+    </nav>
+
+    <nav class="header-actions" id="acesso">
+      @if (isAuthenticated()) {
+        <a class="nav-cta" routerLink="/dashboard">Ir para o dashboard</a>
+      } @else {
+        <a class="nav-link" routerLink="/login">Entrar</a>
+        <a class="nav-cta" routerLink="/login" [queryParams]="{ mode: 'register' }">
+          Criar conta
+        </a>
+      }
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="visao-geral">
+      <div class="hero-copy">
+        <span class="eyebrow">Finanças pessoais com cara de produto de verdade</span>
+        <h1>Chega de planilhas.</h1>
+        <p class="hero-text">
+          Acompanhe saldo, gastos e categorias em um só lugar, com uma experiência pensada para uso diário.
+        </p>
+
+        <div class="hero-actions">
+          @if (isAuthenticated()) {
+            <a class="primary-btn" routerLink="/dashboard">Ir para o dashboard</a>
+          } @else {
+            <a class="primary-btn" routerLink="/login" [queryParams]="{ mode: 'register' }">Criar conta</a>
+            <a class="secondary-btn" routerLink="/login">Entrar</a>
+          }
+        </div>
+
+        <div class="hero-proof">
+          <span><i class="pi pi-shield"></i> Área privada</span>
+          <span><i class="pi pi-chart-pie"></i> Resumo mensal</span>
+          <span><i class="pi pi-bolt"></i> Uso diário sem fricção</span>
+        </div>
+      </div>
+
+      <div class="hero-showcase">
+        <div class="showcase-window">
+          <div class="window-bar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="overview-card">
+            <div class="overview-copy">
+              <span class="overview-label">Visão do mês</span>
+              <strong>Maio 2026</strong>
+              <p>Saldo saudável, leitura rápida e categorias fáceis de acompanhar.</p>
+            </div>
+
+            <div class="overview-ring">
+              <div class="ring-center">
+                <span>Saldo</span>
+                <strong>55%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            @for (metric of heroMetrics; track metric.label) {
+              <article class="metric-card" [class.positive]="metric.tone === 'positive'" [class.negative]="metric.tone === 'negative'">
+                <span>{{ metric.label }}</span>
+                <strong>{{ metric.value }}</strong>
+              </article>
+            }
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <span class="section-label">Movimentos recentes</span>
+                <h2>O que aconteceu hoje</h2>
+              </div>
+              <span class="mini-chip">Atualizado agora</span>
+            </div>
+
+            <div class="timeline-list">
+              @for (item of timeline; track item.title + item.amount) {
+                <div class="timeline-item">
+                  <div>
+                    <strong>{{ item.title }}</strong>
+                    <span>{{ item.category }}</span>
+                  </div>
+                  <strong class="timeline-amount" [class.positive]="item.tone === 'positive'" [class.negative]="item.tone === 'negative'">
+                    {{ item.amount }}
+                  </strong>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-section" id="recursos">
+      <div class="section-heading">
+        <span class="eyebrow">O essencial para começar</span>
+        <h2>O sistema mostra valor antes do login e continua útil depois dele.</h2>
+      </div>
+
+      <div class="feature-grid">
+        @for (feature of featureCards; track feature.title) {
+          <article class="feature-card">
+            <div class="feature-icon"><i [class]="feature.icon"></i></div>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="workflow-section" id="como-funciona">
+      <div class="workflow-panel">
+        <div class="workflow-copy">
+          <span class="eyebrow">Fluxo simples</span>
+          <h2>Crie a conta, registre movimentos e acompanhe seu mês.</h2>
+        </div>
+
+        <div class="workflow-steps">
+          <article>
+            <span>01</span>
+            <h3>Crie sua conta</h3>
+            <p>Comece pelo cadastro sem cair direto em uma tela fria de login.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Registre categorias e transações</h3>
+            <p>Organize entradas e saídas com a estrutura que o sistema já tem hoje.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Use o dashboard todo dia</h3>
+            <p>Veja saldo, totais e comportamento recente sem depender de planilhas.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="compact-cta">
+      <div>
+        <span class="eyebrow">Pronto para começar</span>
+        <h2>Crie sua conta e comece a usar o FinTrack Pro no seu dia a dia.</h2>
+        <p>Sem planilhas dispersas. Sem entrar direto em uma tela fria de autenticação.</p>
+      </div>
+
+      <div class="compact-actions">
+        @if (isAuthenticated()) {
+          <a class="primary-btn" routerLink="/dashboard">Ir para o dashboard</a>
+        } @else {
+          <a class="primary-btn" routerLink="/login" [queryParams]="{ mode: 'register' }">Criar conta</a>
+          <a class="secondary-btn" routerLink="/login">Entrar</a>
+        }
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <strong>FinTrack Pro</strong>
+        <p>Controle financeiro pessoal com foco em clareza, rotina e leitura rápida.</p>
+      </div>
+
+      <nav>
+        <a href="#visao-geral">Início</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a routerLink="/login">Entrar</a>
+      </nav>
+    </footer>
+  </main>
+</div>

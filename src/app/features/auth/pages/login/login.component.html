@@ -1,6 +1,11 @@
 <div class="login-wrapper">
   <div class="login-card">
 
+    <a class="back-link" routerLink="/">
+      <i class="pi pi-arrow-left"></i>
+      <span>Volver al inicio</span>
+    </a>
+
     <div class="login-brand">
       <i class="pi pi-wallet brand-icon"></i>
       <span class="brand-name">FinTrack</span>
@@ -9,17 +14,17 @@
 
     @if (mode() === 'login') {
 
-      <p class="login-subtitle">Inicia sesión en tu cuenta</p>
+      <p class="login-subtitle">Entre na sua conta</p>
 
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
         <div class="field">
-          <label for="email">Correo electrónico</label>
+          <label for="email">E-mail</label>
           <input id="email" pInputText type="email" formControlName="email"
-            placeholder="tu@correo.com" autocomplete="email" class="w-full" />
+            placeholder="voce@email.com" autocomplete="email" class="w-full" />
         </div>
 
         <div class="field">
-          <label for="password">Contraseña</label>
+          <label for="password">Senha</label>
           <p-password inputId="password" formControlName="password" [feedback]="false"
             [toggleMask]="true" placeholder="••••••••" styleClass="w-full" inputStyleClass="w-full" />
         </div>
@@ -28,53 +33,53 @@
           <p-message severity="error">{{ errorMessage() }}</p-message>
         }
 
-        <p-button type="submit" label="Iniciar sesión" class="w-full"
+        <p-button type="submit" label="Entrar" class="w-full"
           [loading]="loading()" [disabled]="loginForm.invalid" />
       </form>
 
       <p class="switch-mode">
-        ¿No tienes cuenta?
-        <button type="button" class="link-btn" (click)="switchMode('register')">Regístrate</button>
+        Ainda não tem conta?
+        <button type="button" class="link-btn" (click)="switchMode('register')">Criar conta</button>
       </p>
 
     } @else {
 
-      <p class="login-subtitle">Crea tu cuenta</p>
+      <p class="login-subtitle">Crie sua conta</p>
 
       <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="login-form">
         <div class="field">
-          <label for="reg-name">Nombre</label>
+          <label for="reg-name">Nome</label>
           <input id="reg-name" pInputText type="text" formControlName="name"
-            placeholder="Tu nombre" autocomplete="name" class="w-full" />
+            placeholder="Seu nome" autocomplete="name" class="w-full" />
           @if (registerForm.get('name')?.invalid && registerForm.get('name')?.dirty) {
-            <span class="field-error">Mínimo 3 caracteres, máximo 60.</span>
+            <span class="field-error">Mínimo de 3 caracteres e máximo de 60.</span>
           }
         </div>
 
         <div class="field">
-          <label for="reg-email">Correo electrónico</label>
+          <label for="reg-email">E-mail</label>
           <input id="reg-email" pInputText type="email" formControlName="email"
-            placeholder="tu@correo.com" autocomplete="email" class="w-full" />
+            placeholder="voce@email.com" autocomplete="email" class="w-full" />
           @if (registerForm.get('email')?.invalid && registerForm.get('email')?.dirty) {
-            <span class="field-error">Ingresa un correo válido.</span>
+            <span class="field-error">Informe um e-mail válido.</span>
           }
         </div>
 
         <div class="field">
-          <label for="reg-password">Contraseña</label>
+          <label for="reg-password">Senha</label>
           <p-password inputId="reg-password" formControlName="password" [feedback]="true"
-            [toggleMask]="true" placeholder="Mínimo 8 caracteres" styleClass="w-full" inputStyleClass="w-full" />
+            [toggleMask]="true" placeholder="Mínimo de 8 caracteres" styleClass="w-full" inputStyleClass="w-full" />
           @if (registerForm.get('password')?.invalid && registerForm.get('password')?.dirty) {
-            <span class="field-error">Mínimo 8 caracteres, máximo 64.</span>
+            <span class="field-error">Mínimo de 8 caracteres e máximo de 64.</span>
           }
         </div>
 
         <div class="field">
-          <label for="reg-confirm">Confirmar contraseña</label>
+          <label for="reg-confirm">Confirmar senha</label>
           <p-password inputId="reg-confirm" formControlName="confirmPassword" [feedback]="false"
-            [toggleMask]="true" placeholder="Repite tu contraseña" styleClass="w-full" inputStyleClass="w-full" />
+            [toggleMask]="true" placeholder="Repita sua senha" styleClass="w-full" inputStyleClass="w-full" />
           @if (registerForm.errors?.['passwordsMismatch'] && registerForm.get('confirmPassword')?.dirty) {
-            <span class="field-error">Las contraseñas no coinciden.</span>
+            <span class="field-error">As senhas não coincidem.</span>
           }
         </div>
 
@@ -82,13 +87,13 @@
           <p-message severity="error">{{ errorMessage() }}</p-message>
         }
 
-        <p-button type="submit" label="Crear cuenta" class="w-full"
+        <p-button type="submit" label="Criar conta" class="w-full"
           [loading]="loading()" [disabled]="registerForm.invalid" />
       </form>
 
       <p class="switch-mode">
-        ¿Ya tienes cuenta?
-        <button type="button" class="link-btn" (click)="switchMode('login')">Inicia sesión</button>
+        Já tem conta?
+        <button type="button" class="link-btn" (click)="switchMode('login')">Entrar</button>
       </p>
 
     }
